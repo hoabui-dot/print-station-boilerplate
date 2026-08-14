@@ -1,0 +1,10 @@
+# Use with the local station stack when the physical printer adapter runs on
+# the co-located macOS host at its Tailscale address.
+#
+# docker compose -f docker-compose.yml \
+#   -f docker-compose.remote-macos-printer.yml up -d kiosk-ui
+services:
+  kiosk-ui:
+    environment:
+      PRINTER_ADAPTER_URL: http://100.108.194.102:5003
+

@@ -1,0 +1,24 @@
+# Local secrets and runtime state
+.env
+.env.*
+!.env.example
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/logs/
+**/storage/
+
+# Build output and dependency caches
+**/node_modules/
+**/bin/
+**/obj/
+**/dist/
+**/.docker/
+
+# Local diagnostics and generated artifacts
+artifacts/
+**/.build_logs/
+.DS_Store
+__pycache__/
+.claude/settings.local.json
+**/*corrupt-backup*

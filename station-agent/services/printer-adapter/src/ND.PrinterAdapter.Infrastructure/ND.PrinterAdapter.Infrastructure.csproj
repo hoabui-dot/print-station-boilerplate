@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>ND.PrinterAdapter.Infrastructure</AssemblyName>
+    <RootNamespace>ND.PrinterAdapter.Infrastructure</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ND.PrinterAdapter.Application\ND.PrinterAdapter.Application.csproj" />
+    <ProjectReference Include="..\ND.PrinterAdapter.Domain\ND.PrinterAdapter.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\ND.SharedKernel\ND.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\ND.Infrastructure\ND.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\ND.UnifiedContracts\ND.UnifiedContracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="StackExchange.Redis" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Confluent.Kafka" />
+  </ItemGroup>
+  <!--
+    These files belong to the removed RabbitMQ/IEventConsumer adapter path.
+    The active printer adapter uses KafkaMessageConsumer and the hosted
+    JobProcessingConsumer, BatchPrintConsumer, and KafkaManagementConsumer.
+    Keep the legacy sources for reference without compiling stale contracts.
+  -->
+  <ItemGroup>
+    <Compile Remove="Messaging/PrinterCommandConsumer.cs" />
+    <Compile Remove="Messaging/PrinterHeartbeatPublisher.cs" />
+    <Compile Remove="Messaging/PrinterManagementConsumer.cs" />
+  </ItemGroup>
+</Project>
