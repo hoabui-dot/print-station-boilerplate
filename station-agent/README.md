@@ -69,4 +69,5 @@ npm run dev  # http://localhost:5222
 
 ## Documentation
 
-See `CLAUDE.md` for full architecture reference, database schema, and coding rules.
+See `ai-docs/AI_DOCUMENT.md`, `ai-docs/PRODUCT_DOCUMENT.md`, and `ai-docs/SYSTEM_DOCUMENT.md`
+for the canonical AI, product, and architecture references.

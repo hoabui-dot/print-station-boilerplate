@@ -8,9 +8,9 @@
 
 Before implementing any feature related to production operations:
 
-1. ✅ Read [PRODUCT_OVERVIEW.md](./PRODUCT_OVERVIEW.md) — understand the system
-2. ✅ Read [MANUFACTURING_WORKFLOW.md](./MANUFACTURING_WORKFLOW.md) — understand the flow
-3. ✅ Read [DEVICE_CATALOG.md](./DEVICE_CATALOG.md) — understand the devices
+1. ✅ Read [PRODUCT_DOCUMENT.md](../../ai-docs/PRODUCT_DOCUMENT.md) — understand the product
+2. ✅ Read [SYSTEM_DOCUMENT.md](../../ai-docs/SYSTEM_DOCUMENT.md) — understand runtime ownership
+3. ✅ Verify every value against `shared/ND.UnifiedContracts/Constants/BusinessConstants.cs`
 4. ✅ Read [EVENT_MODEL.md](./EVENT_MODEL.md) — understand the events
 5. ✅ Read [MQTT_PAYLOAD_CONTRACT.md](./MQTT_PAYLOAD_CONTRACT.md) — understand the protocol
 6. ✅ Read this file — understand the valid values
