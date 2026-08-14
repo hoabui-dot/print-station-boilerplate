@@ -4,111 +4,85 @@
 @import "tailwindcss";
 
 /* ══════════════════════════════════════════════════════════
-   DARK THEME  (default / root)
+   COLOR SYSTEM
+
+   Components may use only semantic tokens exposed below. Do not
+   add hex/rgb colors or Tailwind palette colors in component code.
+   :root is intentionally light for bright factory environments.
+   .dark is an explicit operator preference, never an OS default.
 ══════════════════════════════════════════════════════════ */
 :root {
-  /* ── Brand: Orange signature ─────────────────────────── */
-  --brand:         24 96% 53%;   /* #F97316 */
-  --brand-dark:    18 90% 40%;   /* #C2410C */
-  --brand-light:   20 92% 48%;   /* #EA580C */
-  --brand-glow:    16 90% 15%;
+  --background: 220 20% 97%;
+  --surface: 0 0% 100%;
+  --surface-2: 220 16% 95%;
+  --surface-3: 216 33% 97%;
+  --foreground: 222 47% 11%;
+  --muted-fg: 215 16% 42%;
+  --subtle-fg: 215 14% 55%;
+  --border: 214 20% 88%;
+  --border-strong: 215 18% 78%;
+  --brand: 24 94% 48%;
+  --brand-dark: 20 92% 35%;
+  --brand-light: 24 92% 55%;
+  --brand-glow: 28 100% 96%;
+  --success: 142 64% 34%;
+  --warning: 32 82% 40%;
+  --error: 0 68% 46%;
+  --info: 213 78% 43%;
+  --accent-color: 262 62% 52%;
+  --overlay: 222 47% 11%;
+  --on-strong: 0 0% 100%;
+  --preview-paper: 0 0% 100%;
+  --preview-ink: 222 47% 11%;
+  --shadow-sm: 0 1px 3px hsl(222 47% 11% / 0.08), 0 1px 2px hsl(222 47% 11% / 0.05);
+  --shadow-md: 0 4px 16px hsl(222 47% 11% / 0.10), 0 2px 6px hsl(222 47% 11% / 0.06);
+  --shadow-lg: 0 12px 32px hsl(222 47% 11% / 0.14), 0 4px 12px hsl(222 47% 11% / 0.08);
 
-  /* ── Backgrounds ─────────────────────────────────────── */
-  --background:    220 20% 6%;   /* #0d0f14 */
-  --surface:       220 16% 10%;  /* #161a21 */
-  --surface-2:     220 14% 14%;  /* #1e232d */
-  --surface-3:     220 12% 18%;  /* #272d38 */
-
-  /* ── Foreground ──────────────────────────────────────── */
-  --foreground:    220 12% 92%;  /* #e6e9ef */
-  --muted-fg:      220 10% 55%;  /* #7f8ea0 */
-  --subtle-fg:     220  8% 38%;  /* #586070 */
-
-  /* ── Borders ─────────────────────────────────────────── */
-  --border:        220 14% 18%;  /* #252c38 */
-  --border-strong: 220 14% 24%;  /* #313d4d */
-
-  /* ── Status Colors ───────────────────────────────────── */
-  --success:       142 70% 45%;
-  --warning:       35  90% 50%;
-  --error:         0   84% 60%;
-  --info:          217 91% 60%;
-
-  /* ── Shadows ─────────────────────────────────────────── */
-  --shadow-sm:  0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-md:  0 4px 12px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
-
-  /* ── shadcn token aliases ─────────────────────────────── */
-  --card:              var(--surface);
-  --card-foreground:   var(--foreground);
-  --popover:           var(--surface-2);
-  --popover-foreground:var(--foreground);
-  --primary:           var(--brand);
-  --primary-foreground:0 0% 100%;
-  --secondary:         var(--surface-2);
-  --secondary-foreground:var(--foreground);
-  --muted:             var(--surface-2);
-  --muted-foreground:  var(--muted-fg);
-  --accent:            var(--brand);
-  --accent-foreground: 0 0% 100%;
-  --destructive:       0 72% 46%;
-  --destructive-foreground: 0 0% 100%;
-  --input:             var(--surface-2);
-  --ring:              var(--brand);
-  --radius:            0.75rem;
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface);
+  --popover-foreground: var(--foreground);
+  --primary: var(--brand);
+  --primary-foreground: var(--on-strong);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--muted-fg);
+  --accent: var(--brand);
+  --accent-foreground: var(--on-strong);
+  --destructive: var(--error);
+  --destructive-foreground: var(--on-strong);
+  --input: var(--surface);
+  --ring: var(--brand);
+  --radius: 0.75rem;
 }
 
-/* ══════════════════════════════════════════════════════════
-   LIGHT THEME  (.light class on <html>)
-══════════════════════════════════════════════════════════ */
-.light {
-  /* ── Backgrounds ── */
-  --background:    220 14% 97.5%;  /* #F7F8FA — never pure white */
-  --surface:       0   0%  100%;   /* #FFFFFF — cards, tables, dialogs */
-  --surface-2:     220 13% 95%;    /* #F3F4F6 — table header bg */
-  --surface-3:     213 100% 97%;   /* #EFF6FF — selected row */
-
-  /* ── Foregrounds ── */
-  --foreground:    221 39% 11%;    /* #111827 — primary text */
-  --muted-fg:      220  9% 46%;    /* #6B7280 — secondary text */
-  --subtle-fg:     218 11% 65%;    /* #9CA3AF — placeholder */
-
-  /* ── Borders ── */
-  --border:        220 13% 91%;    /* #E5E7EB */
-  --border-strong: 220 13% 83%;    /* #D1D5DB */
-
-  /* ── Brand overrides ── */
-  --brand:         24 96% 53%;     /* #F97316 */
-  --brand-light:   20 92% 48%;     /* #EA580C */
-  --brand-dark:    18 90% 40%;     /* #C2410C */
-  --brand-glow:    33 100% 96.5%;  /* #FFF7ED */
-
-  /* ── Status Colors ── */
-  --success:       142 76% 36%;    /* #16A34A */
-  --warning:       35  92% 44%;    /* #D97706 */
-  --error:         0   72% 51%;    /* #DC2626 */
-  --info:          221 83% 53%;    /* #2563EB */
-
-  /* ── Shadows — critical for light mode depth ── */
-  --shadow-sm:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md:  0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
-  --shadow-lg:  0 8px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
-
-  /* ── shadcn token overrides ── */
-  --card:              var(--surface);
-  --card-foreground:   var(--foreground);
-  --popover:           var(--surface);
-  --popover-foreground:var(--foreground);
-  --primary:           var(--brand);
-  --primary-foreground:0 0% 100%;
-  --secondary:         var(--surface-2);
-  --secondary-foreground:var(--foreground);
-  --muted:             var(--surface-2);
-  --muted-foreground:  var(--muted-fg);
-  --accent:            var(--brand);
-  --accent-foreground: 0 0% 100%;
-  --input:             var(--surface);
-  --ring:              var(--brand);
+.dark {
+  --background: 222 26% 7%;
+  --surface: 222 22% 10%;
+  --surface-2: 220 20% 14%;
+  --surface-3: 220 18% 18%;
+  --foreground: 220 20% 94%;
+  --muted-fg: 215 15% 64%;
+  --subtle-fg: 215 13% 48%;
+  --border: 220 18% 22%;
+  --border-strong: 220 16% 30%;
+  --brand: 24 96% 53%;
+  --brand-dark: 20 90% 42%;
+  --brand-light: 28 96% 62%;
+  --brand-glow: 24 70% 15%;
+  --success: 142 65% 48%;
+  --warning: 36 90% 58%;
+  --error: 0 82% 64%;
+  --info: 213 92% 64%;
+  --accent-color: 262 78% 70%;
+  --overlay: 222 26% 5%;
+  --on-strong: 0 0% 100%;
+  --preview-paper: 0 0% 100%;
+  --preview-ink: 222 47% 11%;
+  --shadow-sm: 0 1px 3px hsl(0 0% 0% / 0.34), 0 1px 2px hsl(0 0% 0% / 0.24);
+  --shadow-md: 0 4px 14px hsl(0 0% 0% / 0.42), 0 2px 6px hsl(0 0% 0% / 0.28);
+  --shadow-lg: 0 14px 38px hsl(0 0% 0% / 0.52), 0 5px 14px hsl(0 0% 0% / 0.34);
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -153,6 +127,15 @@
   --color-warning: hsl(var(--warning));
   --color-error:   hsl(var(--error));
   --color-info:    hsl(var(--info));
+  --color-status-success: hsl(var(--success));
+  --color-status-warning: hsl(var(--warning));
+  --color-status-error: hsl(var(--error));
+  --color-status-info: hsl(var(--info));
+  --color-accent-color: hsl(var(--accent-color));
+  --color-overlay: hsl(var(--overlay));
+  --color-on-strong: hsl(var(--on-strong));
+  --color-preview-paper: hsl(var(--preview-paper));
+  --color-preview-ink: hsl(var(--preview-ink));
 
   --color-surface:    hsl(var(--surface));
   --color-surface-2:  hsl(var(--surface-2));
@@ -207,23 +190,23 @@
 ══════════════════════════════════════════════════════════ */
 @layer base {
   /* Stronger shadows for surfaces in light mode */
-  .light .card-elevated {
+  .card-elevated {
     box-shadow: var(--shadow-md);
   }
 
   /* Table header needs a clear visual separator */
-  .light thead {
+  thead {
     border-bottom: 2px solid hsl(var(--border));
   }
 
   /* Better focus ring in light mode */
-  .light :focus-visible {
+  :focus-visible {
     outline: 2px solid hsl(var(--brand));
     outline-offset: 2px;
   }
 
   /* Sidebar active item — stronger in light mode */
-  .light .nav-active {
+  .nav-active {
     background-color: hsl(var(--brand-glow));
     color: hsl(var(--brand-dark));
     border-color: hsl(var(--brand) / 0.3);
@@ -240,9 +223,9 @@
   ::-webkit-scrollbar-thumb  { background: hsl(var(--border-strong)); border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: hsl(var(--brand)); }
 
-  .light ::-webkit-scrollbar-track  { background: hsl(var(--surface-2)); }
-  .light ::-webkit-scrollbar-thumb  { background: hsl(var(--border-strong)); }
-  .light ::-webkit-scrollbar-thumb:hover { background: hsl(var(--brand)); }
+  :root ::-webkit-scrollbar-track  { background: hsl(var(--surface-2)); }
+  :root ::-webkit-scrollbar-thumb  { background: hsl(var(--border-strong)); }
+  :root ::-webkit-scrollbar-thumb:hover { background: hsl(var(--brand)); }
 }
 
 /* ══════════════════════════════════════════════════════════

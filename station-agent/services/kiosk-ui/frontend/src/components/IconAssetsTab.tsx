@@ -122,7 +122,7 @@ export function IconAssetsTab() {
   }
 
   const columns = useMemo<ColumnDef<LabelAsset>[]>(() => [
-    { id: 'preview', header: 'Xem', cell: ({ row }) => <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border border-border bg-white">{row.original.previewUrl ? <button type="button" onClick={() => setSelectedAsset(row.original)} className="h-full w-full cursor-zoom-in" title="Xem và chỉnh vị trí biểu tượng"><img src={row.original.previewUrl} alt={`Xem trước ${row.original.name}`} className="h-full w-full object-contain" /></button> : <ImageIcon size={19} className="text-muted-fg" />}</div> },
+    { id: 'preview', header: 'Xem', cell: ({ row }) => <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border border-border bg-preview-paper">{row.original.previewUrl ? <button type="button" onClick={() => setSelectedAsset(row.original)} className="h-full w-full cursor-zoom-in" title="Xem và chỉnh vị trí biểu tượng"><img src={row.original.previewUrl} alt={`Xem trước ${row.original.name}`} className="h-full w-full object-contain" /></button> : <ImageIcon size={19} className="text-muted-fg" />}</div> },
     { accessorKey: 'name', header: 'Tên biểu tượng', cell: ({ row }) => <div><p className="font-semibold text-foreground">{row.original.name}</p><p className="text-[11px] text-muted-fg">{row.original.id}</p></div> },
     { accessorKey: 'contentType', header: 'Định dạng', cell: ({ row }) => <span className="font-mono text-xs text-muted-fg">{row.original.contentType.replace('image/', '').toUpperCase()}</span> },
     { accessorKey: 'sha256', header: 'SHA-256', cell: ({ row }) => <span className="font-mono text-[11px] text-muted-fg">{row.original.sha256.slice(0, 16)}...</span> },
@@ -190,7 +190,7 @@ export function IconAssetsTab() {
             {!loading && assets.map(asset => (
               <TableRow key={asset.id}>
                 <TableCell>
-                  <div className="w-12 h-12 rounded-lg border border-border bg-white flex items-center justify-center overflow-hidden">
+                  <div className="w-12 h-12 rounded-lg border border-border bg-preview-paper flex items-center justify-center overflow-hidden">
                     {asset.previewUrl
                       ? <button type="button" onClick={() => setSelectedAsset(asset)} className="w-full h-full cursor-zoom-in" title="Xem và chỉnh vị trí biểu tượng">
                           <img src={asset.previewUrl} alt={`Xem trước ${asset.name}`} className="w-full h-full object-contain" />
@@ -393,11 +393,11 @@ function IconRasterPreviewDialog({ asset, onClose, onSaved }: { asset: LabelAsse
           <div className="space-y-4">
             <div className="rounded-xl border border-border bg-surface-2 p-4">
               <p className="text-xs font-semibold text-muted-fg mb-2">Bitmap đơn sắc trước khi gửi máy in</p>
-              <div className="min-h-48 flex items-center justify-center overflow-auto bg-white rounded-lg p-4"><canvas ref={canvasRef} className="max-w-full max-h-64 image-render-pixelated" /></div>
+              <div className="min-h-48 flex items-center justify-center overflow-auto bg-preview-paper rounded-lg p-4"><canvas ref={canvasRef} className="max-w-full max-h-64 image-render-pixelated" /></div>
             </div>
             <div className="rounded-xl border border-border bg-surface-2 p-4">
               <p className="text-xs font-semibold text-muted-fg mb-2">Render thực tế từ ZPL / Labelary</p>
-              <div className="min-h-48 flex items-center justify-center bg-white rounded-lg p-4">{renderedUrl ? <img src={renderedUrl} alt="Render thực tế của icon trên tem" className="max-w-full max-h-72 object-contain" /> : <span className="text-xs text-muted-fg">Bấm “Xem preview” để xem kết quả.</span>}</div>
+              <div className="min-h-48 flex items-center justify-center bg-preview-paper rounded-lg p-4">{renderedUrl ? <img src={renderedUrl} alt="Render thực tế của icon trên tem" className="max-w-full max-h-72 object-contain" /> : <span className="text-xs text-muted-fg">Bấm “Xem preview” để xem kết quả.</span>}</div>
             </div>
           </div>
         </div>

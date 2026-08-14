@@ -87,17 +87,17 @@ function SimulationDeviceSection({ devices: simDevices, relativeTime }: {
         onClick={() => setOpen(o => !o)}
         className="flex items-center gap-2.5 w-full text-left group cursor-pointer"
       >
-        <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
+        <div className="w-7 h-7 rounded-lg bg-status-warning/10 text-status-warning flex items-center justify-center shrink-0">
           <FlaskConical size={14} />
         </div>
         <span className="text-sm font-bold text-muted-fg group-hover:text-foreground transition-colors">
           Thiết bị mô phỏng
         </span>
-        <span className="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-500/10 text-amber-500">
+        <span className="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-status-warning/10 text-status-warning">
           {simDevices.length}
         </span>
         {offlineCount > 0 && (
-          <span className="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-red-500/10 text-red-400">
+          <span className="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-status-error/10 text-status-error">
             {offlineCount} offline
           </span>
         )}
@@ -116,13 +116,13 @@ function SimulationDeviceSection({ devices: simDevices, relativeTime }: {
             <div key={d.deviceId}
               className={`rounded-xl p-4 border flex flex-col gap-2 transition-all duration-300 ${
                 d.isOnline
-                  ? 'border-amber-500/20 bg-amber-500/[0.04]'
-                  : 'border-white/5 bg-white/[0.02] opacity-50'
+                  ? 'border-status-warning/20 bg-status-warning/[0.04]'
+                  : 'border-on-strong/5 bg-overlay/[0.02] opacity-50'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                  d.isOnline ? 'bg-amber-500/10 text-amber-500' : 'bg-white/5 text-muted-fg'
+                  d.isOnline ? 'bg-status-warning/10 text-status-warning' : 'bg-overlay/5 text-muted-fg'
                 }`}>
                   <FlaskConical size={15} />
                 </div>
@@ -130,15 +130,15 @@ function SimulationDeviceSection({ devices: simDevices, relativeTime }: {
                   {/* Online/Offline dot badge */}
                   <span className={`flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
                     d.isOnline
-                      ? 'text-emerald-400 bg-emerald-400/10'
-                      : 'text-red-400 bg-red-400/10'
+                      ? 'text-status-success bg-status-success/10'
+                      : 'text-status-error bg-status-error/10'
                   }`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${
-                      d.isOnline ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'
+                      d.isOnline ? 'bg-status-success animate-pulse' : 'bg-status-error'
                     }`} />
                     {d.isOnline ? 'Online' : 'Offline'}
                   </span>
-                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-500 uppercase tracking-wider">
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-status-warning/10 text-status-warning uppercase tracking-wider">
                     Simulation
                   </span>
                 </div>
@@ -209,15 +209,11 @@ export default function DashboardPage() {
   }, [])
 
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    return (localStorage.getItem('kiosk-theme') as 'dark' | 'light') || 'dark';
+    return (localStorage.getItem('kiosk-theme') as 'dark' | 'light') || 'light';
   });
 
   useEffect(() => {
-    if (theme === 'light') {
-      document.documentElement.classList.add('light');
-    } else {
-      document.documentElement.classList.remove('light');
-    }
+    document.documentElement.classList.toggle('dark', theme === 'dark');
     localStorage.setItem('kiosk-theme', theme);
   }, [theme]);
 
@@ -918,7 +914,7 @@ export default function DashboardPage() {
           {/* Brand */}
           <div className="flex items-center gap-3 min-w-0">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-dark to-brand">
-              <Flame className="h-4 w-4 text-white" />
+              <Flame className="h-4 w-4 text-on-strong" />
             </div>
             <div className="min-w-0">
               <p className="font-bold text-base leading-tight truncate">ND Station Kiosk</p>
@@ -972,7 +968,7 @@ export default function DashboardPage() {
             </Button>
 
             <Button variant="ghost" size="sm" onClick={handleLogout}
-              className="gap-1.5 text-muted-fg hover:text-red-400 hover:bg-red-500/10 text-base"
+              className="gap-1.5 text-muted-fg hover:text-status-error hover:bg-status-error/10 text-base"
             >
               <LogOut className="h-4 w-4" />
               <span className="hidden sm:inline">Đăng xuất</span>
@@ -986,7 +982,7 @@ export default function DashboardPage() {
         <div
           onClick={() => setTab('alarms')}
           role="alert"
-          className={`w-full border-b py-3 px-6 text-center text-sm font-extrabold flex items-center justify-center gap-3 cursor-pointer transition-colors select-none ${alarmCriticalCount > 0 ? 'bg-red-500/10 border-red-500/30 text-red-300 motion-safe:animate-pulse' : 'bg-orange-500/10 border-orange-500/30 text-orange-300'}`}
+          className={`w-full border-b py-3 px-6 text-center text-sm font-extrabold flex items-center justify-center gap-3 cursor-pointer transition-colors select-none ${alarmCriticalCount > 0 ? 'bg-status-error/10 border-status-error/30 text-status-error motion-safe:animate-pulse' : 'bg-brand/10 border-brand/30 text-brand'}`}
         >
           <AlertTriangle className="h-5 w-5 shrink-0" />
           <span>{bannerAlarm
@@ -1038,7 +1034,7 @@ export default function DashboardPage() {
                   </div>
                   {!sidebarCollapsed && <span>{label}</span>}
                   {!sidebarCollapsed && key === 'alarms' && alarmBannerCount > 0 && (
-                    <span className="ml-auto min-w-7 rounded-full bg-red-600 px-2 py-0.5 text-center text-xs font-black text-white" aria-label={`${alarmBannerCount} cảnh báo chưa xác nhận`}>{alarmBannerCount}</span>
+                    <span className="ml-auto min-w-7 rounded-full bg-status-error px-2 py-0.5 text-center text-xs font-black text-on-strong" aria-label={`${alarmBannerCount} cảnh báo chưa xác nhận`}>{alarmBannerCount}</span>
                   )}
                 </button>
               )
@@ -1096,7 +1092,7 @@ export default function DashboardPage() {
 
                   {/* PANEL 1: Production Information */}
                   <Card className="border border-border bg-card shadow-sm hover:shadow-md transition-shadow">
-                    <CardHeader className="py-4 px-6 border-b border-border bg-brand/5 dark:bg-brand-dark/10">
+                    <CardHeader className="py-4 px-6 border-b border-border bg-brand/5">
                       <CardTitle className="text-sm font-bold tracking-wider text-brand uppercase flex items-center gap-2">
                         <Database className="h-4 w-4" />
                         1. Thông tin lệnh sản xuất (Production Info)
@@ -1136,7 +1132,7 @@ export default function DashboardPage() {
                         <div>
                           <span className="text-xs uppercase text-muted-fg font-semibold">Người vận hành (Operator)</span>
                           <div className="text-sm font-medium text-foreground flex items-center gap-1.5">
-                            <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+                            <span className="h-2 w-2 rounded-full bg-status-success"></span>
                             {currentUser?.username || resolved.operator}
                           </div>
                         </div>
@@ -1152,16 +1148,16 @@ export default function DashboardPage() {
                         {production?.jobStatus === 'PREPARING' ? (
                           <>
                             <div className="flex justify-between items-center mb-1 text-xs font-semibold text-muted-fg">
-                              <span className="flex items-center gap-1.5 text-violet-400">
-                                <span className="inline-block h-2 w-2 rounded-full bg-violet-500 animate-pulse" />
+                              <span className="flex items-center gap-1.5 text-accent-color">
+                                <span className="inline-block h-2 w-2 rounded-full bg-accent-color animate-pulse" />
                                 ĐANG CHUẨN BỊ NHÃN IN...
                               </span>
-                              <span className="text-violet-400">{planned} nhãn</span>
+                              <span className="text-accent-color">{planned} nhãn</span>
                             </div>
                             {/* Indeterminate progress bar */}
                             <div className="w-full bg-surface-2 rounded-full h-2 overflow-hidden border border-border/50">
                               <div
-                                className="h-full rounded-full bg-violet-500"
+                                className="h-full rounded-full bg-accent-color"
                                 style={{
                                   width: '40%',
                                   animation: 'preparing-slide 1.4s ease-in-out infinite'
@@ -1192,8 +1188,8 @@ export default function DashboardPage() {
 
                   {/* PANEL 2: Product Information */}
                   <Card className="border border-border bg-card shadow-sm hover:shadow-md transition-shadow">
-                    <CardHeader className="py-4 px-6 border-b border-border bg-teal-900/5 dark:bg-teal-950/20">
-                      <CardTitle className="text-sm font-bold tracking-wider text-teal-500 uppercase flex items-center gap-2">
+                    <CardHeader className="py-4 px-6 border-b border-border bg-accent-color/5">
+                      <CardTitle className="text-sm font-bold tracking-wider text-accent-color uppercase flex items-center gap-2">
                         <Cpu className="h-4 w-4" />
                         2. Thông tin sản phẩm (Product Detail)
                       </CardTitle>
@@ -1269,7 +1265,7 @@ export default function DashboardPage() {
                 {/* Bottom action bar */}
                 <div className="lg:col-span-3 flex justify-between items-center pt-4 border-t border-border/50">
                   <div className="text-sm font-semibold flex items-center gap-1.5 text-muted-fg">
-                    <span className={`h-2.5 w-2.5 rounded-full ${isConnected ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
+                    <span className={`h-2.5 w-2.5 rounded-full ${isConnected ? 'bg-status-success' : 'bg-status-error'}`}></span>
                     {isConnected ? 'Kiosk Agent connected to SignalR' : 'Kiosk Agent disconnected'}
                   </div>
                   <Button
@@ -1281,7 +1277,7 @@ export default function DashboardPage() {
                       setReprintSuccess('')
                     }}
                     disabled={!canReprocess}
-                    className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-extrabold px-6 py-3 rounded-lg shadow-md transition-all duration-300 gap-2 uppercase tracking-wider text-sm"
+                    className="bg-gradient-to-r from-brand to-status-error hover:from-brand hover:to-status-error text-on-strong font-extrabold px-6 py-3 rounded-lg shadow-md transition-all duration-300 gap-2 uppercase tracking-wider text-sm"
                   >
                     <PrinterIcon className="h-4 w-4" />
                     Xử lý lại sản phẩm (Reprocess)
@@ -1461,7 +1457,7 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent className="p-0">
                   {historyError && (
-                    <div className="p-6 text-center text-red-500 text-base">{historyError}</div>
+                    <div className="p-6 text-center text-status-error text-base">{historyError}</div>
                   )}
 
                   <div className="w-full overflow-x-auto">
@@ -1486,7 +1482,7 @@ export default function DashboardPage() {
                           historyData.items.map((record) => (
                             <TableRow
                               key={record.id}
-                              className="hover:bg-surface-1 cursor-pointer"
+                              className="hover:bg-surface cursor-pointer"
                               onClick={() => {
                                 setSelectedDetailRecord(record);
                                 setIsDetailDialogOpen(true);
@@ -1598,52 +1594,52 @@ export default function DashboardPage() {
 
                 const lifecycleBadge = (d: any) => {
                   const s = (d.lifecycleState ?? '').toLowerCase()
-                  if (s === 'printing')   return { label: 'In ấn',     cls: 'bg-indigo-500/10 text-indigo-400' }
-                  if (s === 'busy')       return { label: 'Bận',       cls: 'bg-blue-500/10 text-blue-400' }
-                  if (s === 'waiting')    return { label: 'Chờ hàng',  cls: 'bg-amber-500/10 text-amber-400' }
-                  if (s === 'warning')    return { label: 'Cảnh báo',  cls: 'bg-yellow-500/10 text-yellow-400' }
-                  if (s === 'error')      return { label: 'Lỗi',       cls: 'bg-red-500/10 text-red-400' }
-                  if (s === 'connecting') return { label: 'Đang kết nối', cls: 'bg-slate-500/10 text-slate-400' }
-                  if (s === 'online')     return { label: 'Chờ',       cls: 'bg-emerald-500/10 text-emerald-400' }
-                  if (s === 'idle')       return { label: 'Chờ',       cls: 'bg-emerald-500/10 text-emerald-400' }
-                  if (s === 'offline')    return { label: 'Offline',   cls: 'bg-red-500/10 text-red-400' }
-                  if (s === 'unknown')    return { label: '?',         cls: 'bg-gray-500/10 text-gray-400' }
+                  if (s === 'printing')   return { label: 'In ấn',     cls: 'bg-accent-color/10 text-accent-color' }
+                  if (s === 'busy')       return { label: 'Bận',       cls: 'bg-status-info/10 text-status-info' }
+                  if (s === 'waiting')    return { label: 'Chờ hàng',  cls: 'bg-status-warning/10 text-status-warning' }
+                  if (s === 'warning')    return { label: 'Cảnh báo',  cls: 'bg-status-warning/10 text-status-warning' }
+                  if (s === 'error')      return { label: 'Lỗi',       cls: 'bg-status-error/10 text-status-error' }
+                  if (s === 'connecting') return { label: 'Đang kết nối', cls: 'bg-muted/10 text-muted-fg' }
+                  if (s === 'online')     return { label: 'Chờ',       cls: 'bg-status-success/10 text-status-success' }
+                  if (s === 'idle')       return { label: 'Chờ',       cls: 'bg-status-success/10 text-status-success' }
+                  if (s === 'offline')    return { label: 'Offline',   cls: 'bg-status-error/10 text-status-error' }
+                  if (s === 'unknown')    return { label: '?',         cls: 'bg-muted/10 text-muted-fg' }
                   return null
                 }
 
                 // Helper: map lifecycleState to card accent color classes
                 const deviceCardAccent = (d: any) => {
-                  if (!d.isOnline) return 'border-red-500/15 bg-red-500/[0.02] opacity-75'
+                  if (!d.isOnline) return 'border-status-error/15 bg-status-error/[0.02] opacity-75'
                   const s = (d.lifecycleState ?? '').toLowerCase()
-                  if (s === 'printing' || s === 'busy')  return 'border-indigo-500/20 bg-indigo-500/[0.03] hover:border-indigo-500/40'
-                  if (s === 'waiting')  return 'border-amber-500/20 bg-amber-500/[0.03] hover:border-amber-500/40'
-                  if (s === 'warning')  return 'border-yellow-500/20 bg-yellow-500/[0.03] hover:border-yellow-500/40'
-                  if (s === 'error')    return 'border-red-500/20 bg-red-500/[0.03] hover:border-red-500/40'
-                  if (s === 'connecting') return 'border-slate-500/20 bg-slate-500/[0.02] hover:border-slate-500/30'
-                  return 'border-emerald-500/20 bg-emerald-500/[0.03] hover:border-emerald-500/40'
+                  if (s === 'printing' || s === 'busy')  return 'border-accent-color/20 bg-accent-color/[0.03] hover:border-accent-color/40'
+                  if (s === 'waiting')  return 'border-status-warning/20 bg-status-warning/[0.03] hover:border-status-warning/40'
+                  if (s === 'warning')  return 'border-status-warning/20 bg-status-warning/[0.03] hover:border-status-warning/40'
+                  if (s === 'error')    return 'border-status-error/20 bg-status-error/[0.03] hover:border-status-error/40'
+                  if (s === 'connecting') return 'border-muted/20 bg-muted/[0.02] hover:border-muted/30'
+                  return 'border-status-success/20 bg-status-success/[0.03] hover:border-status-success/40'
                 }
 
                 // Helper: map lifecycleState to top-bar gradient
                 const deviceCardBar = (d: any) => {
-                  if (!d.isOnline) return 'from-red-500/40 to-red-400/10'
+                  if (!d.isOnline) return 'from-status-error/40 to-status-error/10'
                   const s = (d.lifecycleState ?? '').toLowerCase()
-                  if (s === 'printing' || s === 'busy')  return 'from-indigo-500/50 to-indigo-400/20'
-                  if (s === 'waiting')  return 'from-amber-500/50 to-amber-400/20'
-                  if (s === 'warning')  return 'from-yellow-500/50 to-yellow-400/20'
-                  if (s === 'error')    return 'from-red-500/50 to-red-400/20'
-                  return 'from-emerald-500/50 to-emerald-400/20'
+                  if (s === 'printing' || s === 'busy')  return 'from-accent-color/50 to-accent-color/20'
+                  if (s === 'waiting')  return 'from-status-warning/50 to-status-warning/20'
+                  if (s === 'warning')  return 'from-status-warning/50 to-status-warning/20'
+                  if (s === 'error')    return 'from-status-error/50 to-status-error/20'
+                  return 'from-status-success/50 to-status-success/20'
                 }
 
                 // Helper: status dot color + animation
                 const statusDot = (d: any) => {
                   const s = (d.lifecycleState ?? '').toLowerCase()
-                  if (!d.isOnline)      return 'bg-red-400'
-                  if (s === 'printing' || s === 'busy') return 'bg-indigo-400 animate-pulse'
-                  if (s === 'waiting')  return 'bg-amber-400 animate-pulse'
-                  if (s === 'warning')  return 'bg-yellow-400 animate-pulse'
-                  if (s === 'error')    return 'bg-red-400'
-                  if (s === 'connecting') return 'bg-slate-400 animate-pulse'
-                  return 'bg-emerald-400 animate-pulse'
+                  if (!d.isOnline)      return 'bg-status-error'
+                  if (s === 'printing' || s === 'busy') return 'bg-accent-color animate-pulse'
+                  if (s === 'waiting')  return 'bg-status-warning animate-pulse'
+                  if (s === 'warning')  return 'bg-status-warning animate-pulse'
+                  if (s === 'error')    return 'bg-status-error'
+                  if (s === 'connecting') return 'bg-muted animate-pulse'
+                  return 'bg-status-success animate-pulse'
                 }
 
                 const statusLabel = (d: any) => {
@@ -1660,13 +1656,13 @@ export default function DashboardPage() {
 
                 const statusLabelCls = (d: any) => {
                   const s = (d.lifecycleState ?? '').toLowerCase()
-                  if (!d.isOnline)      return 'bg-red-500/10 text-red-400'
-                  if (s === 'printing' || s === 'busy') return 'bg-indigo-500/10 text-indigo-400'
-                  if (s === 'waiting')  return 'bg-amber-500/10 text-amber-400'
-                  if (s === 'warning')  return 'bg-yellow-500/10 text-yellow-400'
-                  if (s === 'error')    return 'bg-red-500/10 text-red-400'
-                  if (s === 'connecting') return 'bg-slate-500/10 text-slate-400'
-                  return 'bg-emerald-500/10 text-emerald-400'
+                  if (!d.isOnline)      return 'bg-status-error/10 text-status-error'
+                  if (s === 'printing' || s === 'busy') return 'bg-accent-color/10 text-accent-color'
+                  if (s === 'waiting')  return 'bg-status-warning/10 text-status-warning'
+                  if (s === 'warning')  return 'bg-status-warning/10 text-status-warning'
+                  if (s === 'error')    return 'bg-status-error/10 text-status-error'
+                  if (s === 'connecting') return 'bg-muted/10 text-muted-fg'
+                  return 'bg-status-success/10 text-status-success'
                 }
 
                 // Separate: real production devices vs simulation printers
@@ -1687,12 +1683,12 @@ export default function DashboardPage() {
                     {/* ── Gateway banner ── */}
                     <div className={`rounded-xl border-2 p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all ${
                       isGatewayOnline
-                        ? 'border-emerald-500/30 bg-emerald-500/[0.04]'
-                        : 'border-red-500/30 bg-red-500/[0.04]'
+                        ? 'border-status-success/30 bg-status-success/[0.04]'
+                        : 'border-status-error/30 bg-status-error/[0.04]'
                     }`}>
                       <div className="flex items-center gap-4">
                         <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
-                          isGatewayOnline ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
+                          isGatewayOnline ? 'bg-status-success/10 text-status-success' : 'bg-status-error/10 text-status-error'
                         }`}>
                           <Flame className="h-5 w-5" />
                         </div>
@@ -1700,9 +1696,9 @@ export default function DashboardPage() {
                           <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
                             Cổng truyền thông Factory Gateway
                             <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                              isGatewayOnline ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
+                              isGatewayOnline ? 'bg-status-success/10 text-status-success' : 'bg-status-error/10 text-status-error'
                             }`}>
-                              <span className={`h-1.5 w-1.5 rounded-full ${isGatewayOnline ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'}`} />
+                              <span className={`h-1.5 w-1.5 rounded-full ${isGatewayOnline ? 'bg-status-success animate-pulse' : 'bg-status-error'}`} />
                               {isGatewayOnline ? 'Online' : 'Offline'}
                             </span>
                           </div>
@@ -1720,11 +1716,11 @@ export default function DashboardPage() {
                       </div>
                       <div className="flex gap-3 text-center shrink-0">
                         <div className="px-4 py-2 rounded-lg bg-surface-2 border border-border text-xs">
-                          <div className="font-extrabold text-emerald-400 text-lg">{onlineCount}</div>
+                          <div className="font-extrabold text-status-success text-lg">{onlineCount}</div>
                           <div className="text-muted-fg">Online</div>
                         </div>
                         <div className="px-4 py-2 rounded-lg bg-surface-2 border border-border text-xs">
-                          <div className="font-extrabold text-red-400 text-lg">{offlineCount}</div>
+                          <div className="font-extrabold text-status-error text-lg">{offlineCount}</div>
                           <div className="text-muted-fg">Offline</div>
                         </div>
                         <div className="px-4 py-2 rounded-lg bg-surface-2 border border-border text-xs">
@@ -1767,8 +1763,8 @@ export default function DashboardPage() {
                                   <div className="flex items-start justify-between gap-2">
                                     <div className={`p-2.5 rounded-lg border shrink-0 ${
                                       device.isOnline
-                                        ? 'border-emerald-500/10 bg-emerald-500/5 text-emerald-400'
-                                        : 'border-red-500/10 bg-red-500/5 text-red-400'
+                                        ? 'border-status-success/10 bg-status-success/5 text-status-success'
+                                        : 'border-status-error/10 bg-status-error/5 text-status-error'
                                     }`}>
                                       {getIcon(device)}
                                     </div>
@@ -1841,14 +1837,14 @@ export default function DashboardPage() {
                   </div>
 
                   {traceError && (
-                    <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                    <div className="rounded-lg border border-status-error/30 bg-status-error/10 px-4 py-3 text-sm text-status-error">
                       {traceError}
                     </div>
                   )}
 
                   {traceResult && (
                     <div className="space-y-6 animate-in fade-in duration-200">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-surface-1 p-4 rounded-lg border border-border">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-surface p-4 rounded-lg border border-border">
                         <div>
                           <div className="text-xs text-muted-fg uppercase font-semibold">Mã Serial</div>
                           <div className="text-base font-bold font-mono text-foreground">{traceResult.job.productSerial || 'N/A'}</div>
@@ -1868,7 +1864,7 @@ export default function DashboardPage() {
                         <div className="relative border-l border-brand/20 ml-4 pl-6 space-y-6">
                           {traceResult.attempts.map((att: any, attIdx: number) => (
                             <div key={att.id} className="relative">
-                              <div className="absolute -left-[31px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white">
+                              <div className="absolute -left-[31px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-on-strong">
                                 {attIdx + 1}
                               </div>
                               <div className="bg-surface-2 border border-border p-4 rounded-xl space-y-3">
@@ -1946,8 +1942,8 @@ export default function DashboardPage() {
                       <div className="flex flex-wrap gap-4 mt-2 text-sm">
                         <span>Mã SP: <strong className="text-foreground">{selectedOrder?.productCode}</strong></span>
                         <span>Kế hoạch: <strong className="text-foreground">{selectedOrder?.plannedQty} sản phẩm</strong></span>
-                        <span>Hoàn thành: <strong className="text-emerald-400">{selectedOrder?.completedQty}</strong></span>
-                        <span>Còn lại: <strong className="text-orange-400">{selectedOrder?.remainingQty}</strong></span>
+                        <span>Hoàn thành: <strong className="text-status-success">{selectedOrder?.completedQty}</strong></span>
+                        <span>Còn lại: <strong className="text-brand">{selectedOrder?.remainingQty}</strong></span>
                         <span>Tiến độ: <strong className="text-brand">{selectedOrder?.progressPercent}%</strong></span>
                       </div>
                       {selectedOrder && (
@@ -1986,17 +1982,17 @@ export default function DashboardPage() {
                               <TableCell className="font-mono text-xs text-foreground font-semibold">{item.productSerial || '—'}</TableCell>
                               <TableCell>
                                 <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                                  item.currentStatus === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-400' :
-                                  item.currentStatus === 'PROCESSING' ? 'bg-blue-500/10 text-blue-400' :
-                                  item.currentStatus === 'FAILED' ? 'bg-red-500/10 text-red-400' :
-                                  item.currentStatus === 'QUEUED' ? 'bg-amber-500/10 text-amber-400' :
+                                  item.currentStatus === 'COMPLETED' ? 'bg-status-success/10 text-status-success' :
+                                  item.currentStatus === 'PROCESSING' ? 'bg-status-info/10 text-status-info' :
+                                  item.currentStatus === 'FAILED' ? 'bg-status-error/10 text-status-error' :
+                                  item.currentStatus === 'QUEUED' ? 'bg-status-warning/10 text-status-warning' :
                                   'bg-muted text-muted-fg'
                                 }`}>
                                   <span className={`h-1.5 w-1.5 rounded-full ${
-                                    item.currentStatus === 'COMPLETED' ? 'bg-emerald-400' :
-                                    item.currentStatus === 'PROCESSING' ? 'bg-blue-400 animate-pulse' :
-                                    item.currentStatus === 'FAILED' ? 'bg-red-400' :
-                                    'bg-amber-400'
+                                    item.currentStatus === 'COMPLETED' ? 'bg-status-success' :
+                                    item.currentStatus === 'PROCESSING' ? 'bg-status-info animate-pulse' :
+                                    item.currentStatus === 'FAILED' ? 'bg-status-error' :
+                                    'bg-status-warning'
                                   }`} />
                                   {item.currentStatus || 'QUEUED'}
                                 </span>
@@ -2006,10 +2002,10 @@ export default function DashboardPage() {
                               <TableCell className="text-xs text-muted-fg">{item.endTime ? new Date(item.endTime).toLocaleTimeString('vi-VN') : '—'}</TableCell>
                               <TableCell className="text-xs text-center">
                                 {(item.retryCount || 0) > 0 ? (
-                                  <span className="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 font-mono text-[10px] font-bold">{item.retryCount}</span>
+                                  <span className="px-2 py-0.5 rounded bg-brand/10 text-brand font-mono text-[10px] font-bold">{item.retryCount}</span>
                                 ) : <span className="text-muted-fg">0</span>}
                               </TableCell>
-                              <TableCell className="pr-4 text-xs text-red-400 max-w-[160px] truncate">{item.errorMessage || '—'}</TableCell>
+                              <TableCell className="pr-4 text-xs text-status-error max-w-[160px] truncate">{item.errorMessage || '—'}</TableCell>
                             </TableRow>
                           ))}
                           {orderItems.length === 0 && (
@@ -2028,8 +2024,8 @@ export default function DashboardPage() {
                     {dispatchResult && (
                       <div className={`rounded-lg px-3 py-2 text-sm flex items-center gap-2 ${
                         dispatchResult.success
-                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                          : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                          ? 'bg-status-success/10 text-status-success border border-status-success/20'
+                          : 'bg-status-error/10 text-status-error border border-status-error/20'
                       }`}>
                         {dispatchResult.success
                           ? `✓ Đã dispatch ${dispatchResult.dispatched}/${dispatchResult.total} jobs → ${
@@ -2045,7 +2041,7 @@ export default function DashboardPage() {
                       </Button>
                       <Button
                         id="btn-dispatch-order"
-                        className="bg-brand hover:bg-brand/90 text-white ml-auto"
+                        className="bg-brand hover:bg-brand/90 text-on-strong ml-auto"
                         onClick={() => { setDispatchResult(null); setDispatchDialogOpen(true) }}
                         disabled={dispatchLoading}
                       >
@@ -2089,17 +2085,17 @@ export default function DashboardPage() {
                         <div
                           key={order.id || order.orderNo}
                           onClick={() => handleOpenOrderDetail(order)}
-                          className="flex items-center justify-between p-4 rounded-xl border border-border bg-surface-1 hover:border-brand/40 hover:bg-brand/5 cursor-pointer transition-all duration-200 group"
+                          className="flex items-center justify-between p-4 rounded-xl border border-border bg-surface hover:border-brand/40 hover:bg-brand/5 cursor-pointer transition-all duration-200 group"
                         >
                           <div className="flex items-center gap-4 min-w-0">
                             <div className={`h-10 w-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                              order.status === 'COMPLETED' ? 'bg-emerald-500/10' :
-                              order.status === 'IN_PROGRESS' ? 'bg-blue-500/10' :
+                              order.status === 'COMPLETED' ? 'bg-status-success/10' :
+                              order.status === 'IN_PROGRESS' ? 'bg-status-info/10' :
                               'bg-muted'
                             }`}>
                               <Database className={`h-5 w-5 ${
-                                order.status === 'COMPLETED' ? 'text-emerald-400' :
-                                order.status === 'IN_PROGRESS' ? 'text-blue-400' :
+                                order.status === 'COMPLETED' ? 'text-status-success' :
+                                order.status === 'IN_PROGRESS' ? 'text-status-info' :
                                 'text-muted-fg'
                               }`} />
                             </div>
@@ -2116,11 +2112,11 @@ export default function DashboardPage() {
                             </div>
                             <div className="text-center hidden sm:block">
                               <div className="text-xs text-muted-fg">Hoàn thành</div>
-                              <div className="font-bold text-sm text-emerald-400">{order.completedQty}</div>
+                              <div className="font-bold text-sm text-status-success">{order.completedQty}</div>
                             </div>
                             <div className="text-center hidden sm:block">
                               <div className="text-xs text-muted-fg">Còn lại</div>
-                              <div className="font-bold text-sm text-orange-400">{order.remainingQty}</div>
+                              <div className="font-bold text-sm text-brand">{order.remainingQty}</div>
                             </div>
                             <div className="w-28">
                               <div className="flex justify-between text-[10px] text-muted-fg mb-1">
@@ -2130,23 +2126,23 @@ export default function DashboardPage() {
                               <div className="w-full bg-surface-2 rounded-full h-1.5">
                                 <div
                                   className={`h-1.5 rounded-full transition-all duration-700 ${
-                                    order.status === 'COMPLETED' ? 'bg-emerald-400' :
+                                    order.status === 'COMPLETED' ? 'bg-status-success' :
                                     order.status === 'IN_PROGRESS' ? 'bg-brand' :
-                                    'bg-muted-fg'
+                                    'bg-muted'
                                   }`}
                                   style={{ width: `${order.progressPercent}%` }}
                                 />
                               </div>
                             </div>
                             <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-bold ${
-                              order.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-400' :
-                              order.status === 'IN_PROGRESS' ? 'bg-blue-500/10 text-blue-400 animate-pulse' :
+                              order.status === 'COMPLETED' ? 'bg-status-success/10 text-status-success' :
+                              order.status === 'IN_PROGRESS' ? 'bg-status-info/10 text-status-info animate-pulse' :
                               'bg-muted text-muted-fg'
                             }`}>
                               <span className={`h-1.5 w-1.5 rounded-full ${
-                                order.status === 'COMPLETED' ? 'bg-emerald-400' :
-                                order.status === 'IN_PROGRESS' ? 'bg-blue-400' :
-                                'bg-muted-fg'
+                                order.status === 'COMPLETED' ? 'bg-status-success' :
+                                order.status === 'IN_PROGRESS' ? 'bg-status-info' :
+                                'bg-muted'
                               }`} />
                               {order.status === 'COMPLETED' ? 'Hoàn thành' : order.status === 'IN_PROGRESS' ? 'Đang xử lý' : 'Đã tạo'}
                             </span>
@@ -2274,7 +2270,7 @@ export default function DashboardPage() {
                   <Card>
                     <CardContent className="p-6 flex flex-col justify-between h-28">
                       <span className="text-xs uppercase text-muted-fg font-semibold">Tỷ lệ đạt (Yield Rate)</span>
-                      <div className="text-3xl font-extrabold text-emerald-400 font-mono tracking-tight">
+                      <div className="text-3xl font-extrabold text-status-success font-mono tracking-tight">
                         {diagnosticsMetrics.passRate}%
                       </div>
                     </CardContent>
@@ -2282,7 +2278,7 @@ export default function DashboardPage() {
                   <Card>
                     <CardContent className="p-6 flex flex-col justify-between h-28">
                       <span className="text-xs uppercase text-muted-fg font-semibold">Tỷ lệ lỗi (Defect Rate)</span>
-                      <div className="text-3xl font-extrabold text-red-400 font-mono tracking-tight">
+                      <div className="text-3xl font-extrabold text-status-error font-mono tracking-tight">
                         {diagnosticsMetrics.failureRate}%
                       </div>
                     </CardContent>
@@ -2307,8 +2303,8 @@ export default function DashboardPage() {
                             <span className="font-bold text-xs uppercase text-foreground font-mono">{key}</span>
                             <div className="flex items-center gap-3">
                               <span className="text-xs text-muted-fg font-mono">{val.latencyMs}ms</span>
-                              <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-bold ${val.status === 'Healthy' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
-                                <span className={`h-1.5 w-1.5 rounded-full ${val.status === 'Healthy' ? 'bg-emerald-400' : 'bg-red-400'}`}></span>
+                              <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-bold ${val.status === 'Healthy' ? 'bg-status-success/10 text-status-success' : 'bg-status-error/10 text-status-error'}`}>
+                                <span className={`h-1.5 w-1.5 rounded-full ${val.status === 'Healthy' ? 'bg-status-success' : 'bg-status-error'}`}></span>
                                 {val.status}
                               </span>
                             </div>
@@ -2379,13 +2375,13 @@ export default function DashboardPage() {
 
                   {/* Alerts */}
                   {rbacSuccess && (
-                    <div className="flex items-center gap-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-base text-emerald-400">
+                    <div className="flex items-center gap-2.5 rounded-lg border border-status-success/30 bg-status-success/10 px-4 py-2.5 text-base text-status-success">
                       <CheckCircle2 className="h-4 w-4 shrink-0" />
                       {rbacSuccess}
                     </div>
                   )}
                   {rbacError && (
-                    <div className="flex items-center gap-2.5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-base text-red-400">
+                    <div className="flex items-center gap-2.5 rounded-lg border border-status-error/30 bg-status-error/10 px-4 py-2.5 text-base text-status-error">
                       <ShieldAlert className="h-4 w-4 shrink-0" />
                       {rbacError}
                     </div>
@@ -2422,7 +2418,7 @@ export default function DashboardPage() {
                                 <div className="flex items-center gap-2">
                                   <span>{u.username}</span>
                                   {!u.isActive && (
-                                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-red-500/10 text-red-400 border border-red-500/20 uppercase tracking-wider">
+                                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-status-error/10 text-status-error border border-status-error/20 uppercase tracking-wider">
                                       Tạm khóa
                                     </span>
                                   )}
@@ -2431,7 +2427,7 @@ export default function DashboardPage() {
                               <TableCell className="text-muted-fg text-sm">{u.fullName}</TableCell>
                               <TableCell>
                                 {u.roles.includes('SUPER_ADMIN') ? (
-                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-500/10 text-orange-500 border border-orange-500/20 uppercase tracking-wide">
+                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-brand/10 text-brand border border-brand/20 uppercase tracking-wide">
                                     <Shield className="h-3.5 w-3.5" />
                                     Admin hệ thống
                                   </span>
@@ -2445,7 +2441,7 @@ export default function DashboardPage() {
                               <TableCell>
                                 <div className="flex flex-wrap gap-1 max-w-[220px]">
                                   {u.roles.includes('SUPER_ADMIN') ? (
-                                    <span className="text-xs font-bold text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">
+                                    <span className="text-xs font-bold text-brand bg-brand/10 px-2 py-0.5 rounded border border-brand/20">
                                       Toàn quyền hệ thống
                                     </span>
                                   ) : (
@@ -2574,7 +2570,7 @@ export default function DashboardPage() {
 
               {/* Label preview — client-side rendering from active template */}
               {selectedRecord.productSerial && (
-                <div className="border border-border/50 rounded-lg bg-slate-50/50 overflow-hidden flex flex-col items-center p-3">
+                <div className="border border-border/50 rounded-lg bg-muted/50 overflow-hidden flex flex-col items-center p-3">
                   <div className="w-full px-1 pb-2 text-xs font-semibold text-muted-fg uppercase tracking-wider border-b border-border/30 mb-3 text-left">
                     Xem trước nhãn in thực tế (QR 50x30)
                   </div>
@@ -2645,7 +2641,7 @@ export default function DashboardPage() {
           onPointerDownOutside={(e) => e.preventDefault()}
         >
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-orange-500 font-bold text-xl">
+            <DialogTitle className="flex items-center gap-2 text-brand font-bold text-xl">
               <PrinterIcon className="h-5 w-5" />
               Yêu cầu In / Khắc lại tem sản phẩm
             </DialogTitle>
@@ -2655,13 +2651,13 @@ export default function DashboardPage() {
           </DialogHeader>
 
           {reprintSuccess && (
-            <div className="flex items-center gap-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-base text-emerald-400">
+            <div className="flex items-center gap-2.5 rounded-lg border border-status-success/30 bg-status-success/10 px-4 py-2.5 text-base text-status-success">
               <CheckCircle2 className="h-4 w-4 shrink-0" />
               {reprintSuccess}
             </div>
           )}
           {reprintError && (
-            <div className="flex items-center gap-2.5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-base text-red-400">
+            <div className="flex items-center gap-2.5 rounded-lg border border-status-error/30 bg-status-error/10 px-4 py-2.5 text-base text-status-error">
               <ShieldAlert className="h-4 w-4 shrink-0" />
               {reprintError}
             </div>
@@ -2685,12 +2681,12 @@ export default function DashboardPage() {
                       className={[
                         'p-2.5 rounded-md cursor-pointer transition-colors text-sm border space-y-1',
                         isSelected
-                          ? 'bg-orange-500/10 border-orange-500/50 text-foreground'
-                          : 'border-transparent hover:bg-surface-1 text-muted-fg hover:text-foreground'
+                          ? 'bg-brand/10 border-brand/50 text-foreground'
+                          : 'border-transparent hover:bg-surface text-muted-fg hover:text-foreground'
                       ].join(' ')}
                     >
                       <div className="flex justify-between items-center font-bold">
-                        <span className={isSelected ? 'text-orange-400' : 'text-foreground'}>{rec.jobNo}</span>
+                        <span className={isSelected ? 'text-brand' : 'text-foreground'}>{rec.jobNo}</span>
                         <span className="font-mono text-xs text-muted-fg">
                           {new Date(rec.updatedAt).toLocaleTimeString('vi-VN')}
                         </span>
@@ -2721,7 +2717,7 @@ export default function DashboardPage() {
                   <div className="rounded-lg border border-border p-3 space-y-2 bg-surface-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-fg font-medium">Bản ghi chọn:</span>
-                      <span className="font-bold text-orange-400">{selectedReprintRecord.jobNo}</span>
+                      <span className="font-bold text-brand">{selectedReprintRecord.jobNo}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-fg font-medium">SKU:</span>
@@ -2790,7 +2786,7 @@ export default function DashboardPage() {
                       type="checkbox"
                       checked={reprintConfirmed}
                       onChange={(e) => setReprintConfirmed(e.target.checked)}
-                      className="h-4 w-4 rounded border-gray-300 text-brand-dark focus:ring-brand bg-transparent cursor-pointer"
+                      className="h-4 w-4 rounded border-muted text-brand-dark focus:ring-brand bg-transparent cursor-pointer"
                     />
                     <label htmlFor="reprint-confirm" className="text-xs font-medium text-foreground cursor-pointer select-none">
                       Tôi xác nhận chịu trách nhiệm thực hiện hành động in/khắc lại này.
@@ -2816,7 +2812,7 @@ export default function DashboardPage() {
                 <Button
                   disabled={submittingReprint || !selectedReprintRecord || !reprintComment.trim() || !reprintConfirmed}
                   onClick={handleTriggerReprint}
-                  className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-sm"
+                  className="bg-gradient-to-r from-brand to-status-error hover:from-brand hover:to-status-error text-on-strong font-bold text-sm"
                 >
                   {submittingReprint ? 'Đang gửi...' : 'Gửi yêu cầu'}
                 </Button>
@@ -2949,7 +2945,7 @@ export default function DashboardPage() {
         <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto bg-card border-border text-foreground">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-lg">
-              <Key className="h-5 w-5 text-amber-500" />
+              <Key className="h-5 w-5 text-status-warning" />
               Đặt lại mật khẩu operator
             </DialogTitle>
             <DialogDescription className="text-sm">
@@ -2958,13 +2954,13 @@ export default function DashboardPage() {
           </DialogHeader>
 
           {resetError && (
-            <div className="flex items-center gap-2.5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-base text-red-400">
+            <div className="flex items-center gap-2.5 rounded-lg border border-status-error/30 bg-status-error/10 px-4 py-2.5 text-base text-status-error">
               <ShieldAlert className="h-4 w-4 shrink-0" />
               {resetError}
             </div>
           )}
           {resetSuccess && (
-            <div className="flex items-center gap-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-base text-emerald-400">
+            <div className="flex items-center gap-2.5 rounded-lg border border-status-success/30 bg-status-success/10 px-4 py-2.5 text-base text-status-success">
               <CheckCircle2 className="h-4 w-4 shrink-0" />
               {resetSuccess}
             </div>
@@ -3082,9 +3078,9 @@ export default function DashboardPage() {
                   // Style based on action type
                   let badgeColor = 'bg-primary/10 text-primary border-primary/20';
                   if (log.actionName?.includes('DENIED') || log.actionName?.includes('FAILED')) {
-                    badgeColor = 'bg-red-500/10 text-red-400 border-red-500/20';
+                    badgeColor = 'bg-status-error/10 text-status-error border-status-error/20';
                   } else if (log.actionName?.includes('SUCCESS') || log.actionName?.includes('ENABLED') || log.actionName?.includes('CREATED')) {
-                    badgeColor = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+                    badgeColor = 'bg-status-success/10 text-status-success border-status-success/20';
                   }
 
                   return (
@@ -3092,9 +3088,9 @@ export default function DashboardPage() {
                       {/* Timeline dot */}
                       <span className={[
                         'absolute -left-[31px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border bg-background transition-colors',
-                        isSuccess ? 'border-emerald-500 text-emerald-500' : isFailed ? 'border-red-500 text-red-500' : 'border-border'
+                        isSuccess ? 'border-status-success text-status-success' : isFailed ? 'border-status-error text-status-error' : 'border-border'
                       ].join(' ')}>
-                        <span className={`h-1.5 w-1.5 rounded-full ${isSuccess ? 'bg-emerald-500' : isFailed ? 'bg-red-500' : 'bg-muted-fg'}`} />
+                        <span className={`h-1.5 w-1.5 rounded-full ${isSuccess ? 'bg-status-success' : isFailed ? 'bg-status-error' : 'bg-muted'}`} />
                       </span>
 
                       <div className="bg-surface-2 hover:bg-surface-3 border border-border rounded-lg p-4 transition-colors space-y-2">
@@ -3180,7 +3176,7 @@ export default function DashboardPage() {
                 }}
                 className="flex w-full items-center gap-2 px-3 py-2.5 text-sm text-foreground hover:bg-surface-3 hover:text-primary rounded-md transition-colors cursor-pointer text-left font-medium"
               >
-                <Key className="h-4 w-4 text-amber-500" />
+                <Key className="h-4 w-4 text-status-warning" />
                 <span>Đặt lại mật khẩu</span>
               </button>
 
@@ -3209,13 +3205,13 @@ export default function DashboardPage() {
                 >
                   {u.isActive ? (
                     <>
-                      <UserX className="h-4 w-4 text-red-400" />
-                      <span className="text-red-400">Vô hiệu hóa</span>
+                      <UserX className="h-4 w-4 text-status-error" />
+                      <span className="text-status-error">Vô hiệu hóa</span>
                     </>
                   ) : (
                     <>
-                      <UserCheck className="h-4 w-4 text-emerald-400" />
-                      <span className="text-emerald-400">Kích hoạt</span>
+                      <UserCheck className="h-4 w-4 text-status-success" />
+                      <span className="text-status-success">Kích hoạt</span>
                     </>
                   )}
                 </button>
@@ -3226,9 +3222,9 @@ export default function DashboardPage() {
                     setDropdownPosition(null);
                     setUserToDelete(u);
                   }}
-                  className="flex w-full items-center gap-2 px-3 py-2.5 text-sm text-red-500 hover:bg-red-500/10 font-bold rounded-md transition-colors cursor-pointer text-left"
+                  className="flex w-full items-center gap-2 px-3 py-2.5 text-sm text-status-error hover:bg-status-error/10 font-bold rounded-md transition-colors cursor-pointer text-left"
                 >
-                  <Trash2 className="h-4 w-4 text-red-500" />
+                  <Trash2 className="h-4 w-4 text-status-error" />
                   <span>Xóa tài khoản</span>
                 </button>
               </div>

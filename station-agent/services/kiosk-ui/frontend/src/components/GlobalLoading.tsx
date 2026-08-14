@@ -4,12 +4,12 @@ export function GlobalLoading() {
   return (
     <div
       className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground"
-      style={{ background: 'radial-gradient(ellipse at 60% 20%, hsl(16 80% 12%) 0%, hsl(220 20% 6%) 70%)' }}
+      style={{ background: 'radial-gradient(ellipse at 60% 20%, hsl(var(--brand-glow)) 0%, hsl(var(--background)) 70%)' }}
     >
       <div className="relative flex flex-col items-center gap-4">
         {/* Glowing Logo */}
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl shadow-xl bg-gradient-to-br from-brand-dark to-brand-light animate-pulse">
-          <Flame className="h-8 w-8 text-white" />
+          <Flame className="h-8 w-8 text-on-strong" />
         </div>
         
         {/* Spinner */}

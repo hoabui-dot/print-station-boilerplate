@@ -31,10 +31,10 @@ export function ConfirmDialog({
   confirmVariant = 'destructive',
 }: ConfirmDialogProps) {
   const btnClass = confirmVariant === 'destructive'
-    ? 'bg-red-600 hover:bg-red-700 text-white font-bold'
+    ? 'bg-status-error hover:bg-status-error text-on-strong font-bold'
     : confirmVariant === 'success'
-    ? 'bg-emerald-600 hover:bg-emerald-700 text-white font-bold'
-    : 'bg-primary hover:bg-brand-dark text-white font-bold'
+    ? 'bg-status-success hover:bg-status-success text-on-strong font-bold'
+    : 'bg-primary hover:bg-brand-dark text-on-strong font-bold'
 
   return (
     <AlertDialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onCancel() }}>

@@ -84,8 +84,8 @@ function BarcodeSvg({ value, height }: { value: string; height: number }) {
       textMargin: 2,
       height: Math.max(12, Math.round(height)),
       width: 2,
-      background: '#f8fafc',
-      lineColor: '#000000',
+      background: 'hsl(var(--preview-paper))',
+      lineColor: 'hsl(var(--preview-ink))',
     })
   }, [height, value])
 
@@ -170,7 +170,7 @@ function SingleLabelTile({
 
   return (
     <div
-      className="relative select-none overflow-hidden bg-white text-black border border-zinc-200 shadow-sm flex-shrink-0"
+      className="relative select-none overflow-hidden bg-preview-paper text-preview-ink border border-muted shadow-sm flex-shrink-0"
       style={{ width: tileWidth, height: tileHeight, minWidth: tileWidth, minHeight: tileHeight }}
     >
       {parsed.elements.map((el, idx) => {
@@ -199,7 +199,7 @@ function SingleLabelTile({
             return (
               <div
                 key={idx}
-                className="absolute border border-black"
+                className="absolute border border-preview-ink"
                 style={{ left: x, top: y, width: elWidth, height: elHeight, borderWidth: sw, boxSizing: 'border-box' }}
               />
             )
@@ -211,7 +211,7 @@ function SingleLabelTile({
             return (
               <div
                 key={idx}
-                className="absolute border border-black rounded-full"
+                className="absolute border border-preview-ink rounded-full"
                 style={{ left: x, top: y, width: diameter, height: diameter, borderWidth: sw, boxSizing: 'border-box' }}
               />
             )
@@ -223,7 +223,7 @@ function SingleLabelTile({
             return (
               <div
                 key={idx}
-                className="absolute bg-black"
+                className="absolute bg-preview-ink"
                 style={{ left: x, top: y, width: elWidth, height: thickness }}
               />
             )
@@ -236,7 +236,7 @@ function SingleLabelTile({
             return (
               <div
                 key={idx}
-                className="absolute flex items-center justify-center p-0.5 bg-white border border-zinc-100"
+                className="absolute flex items-center justify-center p-0.5 bg-preview-paper border border-muted"
                 style={{ left: x, top: y, width: qrW, height: qrH }}
               >
                 <QRCodeSVG value={qrPayload} size={Math.min(qrW, qrH) - 4} level="M" includeMargin={false} />
@@ -249,7 +249,7 @@ function SingleLabelTile({
             return (
               <div
                 key={idx}
-                className="absolute border border-zinc-300 bg-zinc-50 overflow-hidden"
+                className="absolute border border-muted bg-muted overflow-hidden"
                 style={{ left: x, top: y, width: (el.width ?? 120) * scale, height: (el.height ?? 50) * scale }}
               >
                 <BarcodeSvg value={value} height={(el.height ?? 50) * scale} />
@@ -296,7 +296,7 @@ export function LabelPreview({
       
       {/* Column badge */}
       {cols > 1 && (
-        <div className="absolute bottom-1 right-1 bg-black/60 text-white text-[9px] font-bold px-1.5 py-0.5 rounded select-none pointer-events-none">
+        <div className="absolute bottom-1 right-1 bg-overlay/60 text-on-strong text-[9px] font-bold px-1.5 py-0.5 rounded select-none pointer-events-none">
           {cols === 2 ? '2 Cột' : cols === 3 ? '3 Cột' : `${cols} Cột`}
         </div>
       )}

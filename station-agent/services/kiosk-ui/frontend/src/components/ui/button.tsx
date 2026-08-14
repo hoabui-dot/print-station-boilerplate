@@ -11,10 +11,10 @@ const buttonVariants = cva(
       variant: {
         // Primary — filled orange
         default:
-          'bg-brand text-white hover:bg-brand-light active:bg-brand-dark shadow-sm',
+          'bg-brand text-on-strong hover:bg-brand-light active:bg-brand-dark shadow-sm',
         // Destructive — red
         destructive:
-          'bg-error text-white hover:bg-error/90 shadow-sm',
+          'bg-error text-on-strong hover:bg-error/90 shadow-sm',
         // Secondary — outlined with clear border
         outline:
           'border border-border-strong bg-surface text-foreground hover:bg-surface-2 hover:border-brand hover:text-brand',
@@ -27,7 +27,7 @@ const buttonVariants = cva(
         link:
           'text-brand underline-offset-4 hover:underline p-0 h-auto',
         success:
-          'bg-success text-white hover:bg-success/90 shadow-sm',
+          'bg-success text-on-strong hover:bg-success/90 shadow-sm',
         // Connected/disconnected states (used in badge-like buttons)
         connected:
           'bg-success/10 text-success border border-success/25',

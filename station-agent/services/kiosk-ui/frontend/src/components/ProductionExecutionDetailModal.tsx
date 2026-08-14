@@ -63,11 +63,11 @@ const parseFailureMessage = (_stepName: string, errorMessage: string) => {
 
 const getStepStatusBadge = (status: string) => {
   const s = status?.toUpperCase()
-  if (s === 'COMPLETED') return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-semibold">Hoàn thành</span>
-  if (s === 'FAILED') return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/30 text-xs font-semibold">Thất bại</span>
+  if (s === 'COMPLETED') return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-status-success/10 text-status-success border border-status-success/30 text-xs font-semibold">Hoàn thành</span>
+  if (s === 'FAILED') return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-status-error/10 text-status-error border border-status-error/30 text-xs font-semibold">Thất bại</span>
   if (s === 'PROCESSING') return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-brand/10 text-brand-light border border-brand/30 text-xs font-semibold animate-pulse">Đang chạy</span>
-  if (s === 'SKIPPED') return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-xs font-semibold">Bỏ qua</span>
-  return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-500/10 text-gray-400 border border-gray-500/30 text-xs font-semibold">Chờ</span>
+  if (s === 'SKIPPED') return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-status-warning/10 text-status-warning border border-status-warning/30 text-xs font-semibold">Bỏ qua</span>
+  return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-muted/10 text-muted-fg border border-muted/30 text-xs font-semibold">Chờ</span>
 }
 
 // ── types ──────────────────────────────────────────────────────────────────
@@ -258,7 +258,7 @@ export function ProductionExecutionDetailModal({ open, onOpenChange, record, act
                           'p-4 rounded-xl border transition-all cursor-pointer flex flex-col justify-between gap-3',
                           isSelected
                             ? 'bg-brand/10 border-brand/50 ring-1 ring-brand/30 shadow-sm font-semibold'
-                            : 'bg-card hover:bg-surface-1 border-border hover:border-muted-fg/40 shadow-sm'
+                            : 'bg-card hover:bg-surface border-border hover:border-border/40 shadow-sm'
                         ].join(' ')}
                       >
                         <div className="flex justify-between items-start gap-2">
@@ -272,7 +272,7 @@ export function ProductionExecutionDetailModal({ open, onOpenChange, record, act
                         </div>
 
                         {piece.productSerial && activeTemplate && (
-                          <div className="flex justify-center bg-white rounded-md border border-border/40 overflow-hidden p-1">
+                          <div className="flex justify-center bg-preview-paper rounded-md border border-border/40 overflow-hidden p-1">
                             <LabelPreview
                               template={activeTemplate}
                               data={{
@@ -333,7 +333,7 @@ export function ProductionExecutionDetailModal({ open, onOpenChange, record, act
                           'p-3 rounded-lg cursor-pointer border transition-all space-y-2',
                           isSelected
                             ? 'bg-brand/10 border-brand/50 text-foreground ring-1 ring-brand/30'
-                            : 'border-transparent bg-surface-1 hover:bg-surface-2 hover:border-border text-muted-fg hover:text-foreground'
+                            : 'border-transparent bg-surface hover:bg-surface-2 hover:border-border text-muted-fg hover:text-foreground'
                         ].join(' ')}
                       >
                         <div className="flex justify-between items-center font-bold">
@@ -359,7 +359,7 @@ export function ProductionExecutionDetailModal({ open, onOpenChange, record, act
                           </div>
                           {attempt.reasonCode && (
                             <div className="bg-surface-2/80 p-1.5 rounded mt-1 border border-border/30">
-                              <div className="flex justify-between font-semibold text-[10px] text-orange-400">
+                              <div className="flex justify-between font-semibold text-[10px] text-brand">
                                 <span>Lý do:</span>
                                 <span>{translateReasonCode(attempt.reasonCode)}</span>
                               </div>
@@ -370,8 +370,8 @@ export function ProductionExecutionDetailModal({ open, onOpenChange, record, act
                           <span className="opacity-75 text-[10px]">Trạng thái:</span>
                           <Badge className={[
                             'px-1.5 py-0 text-[10px] font-semibold',
-                            isSuccess ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                              isFailed ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
+                            isSuccess ? 'bg-status-success/10 text-status-success border border-status-success/20' :
+                              isFailed ? 'bg-status-error/10 text-status-error border border-status-error/20' :
                                 'bg-brand/10 text-brand-light border border-brand/20 animate-pulse'
                           ].join(' ')}>
                             {isSuccess ? 'OK' : isFailed ? 'NG' : 'Đang chạy'}
@@ -420,14 +420,14 @@ export function ProductionExecutionDetailModal({ open, onOpenChange, record, act
                           : null
                         if (!failure) return null
                         return (
-                          <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 space-y-2 text-sm">
-                            <h4 className="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
+                          <div className="bg-status-error/10 border border-status-error/30 rounded-xl p-4 space-y-2 text-sm">
+                            <h4 className="text-xs font-bold text-status-error uppercase tracking-wider flex items-center gap-1.5">
                               ⚠️ Phân Tích Nguyên Nhân Lỗi (Failure Analysis)
                             </h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                               <div>
                                 <span className="text-muted-fg block mb-0.5">Nguyên nhân:</span>
-                                <span className="font-semibold text-red-300">{failure.reason}</span>
+                                <span className="font-semibold text-status-error">{failure.reason}</span>
                               </div>
                               {failure.expected && (
                                 <div>
@@ -438,7 +438,7 @@ export function ProductionExecutionDetailModal({ open, onOpenChange, record, act
                               {failure.actual && (
                                 <div>
                                   <span className="text-muted-fg block mb-0.5">Thực tế:</span>
-                                  <code className="font-mono bg-surface-3 px-1.5 rounded text-red-300">{failure.actual}</code>
+                                  <code className="font-mono bg-surface-3 px-1.5 rounded text-status-error">{failure.actual}</code>
                                 </div>
                               )}
                             </div>
@@ -473,10 +473,10 @@ export function ProductionExecutionDetailModal({ open, onOpenChange, record, act
                             const f = parseFailureMessage(step.stepName, step.errorMessage)
                             if (!f) return null
                             return (
-                              <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-3 text-xs space-y-1">
-                                <div className="text-red-400 font-bold">Lỗi: {f.reason}</div>
+                              <div className="bg-status-error/5 border border-status-error/20 rounded-lg p-3 text-xs space-y-1">
+                                <div className="text-status-error font-bold">Lỗi: {f.reason}</div>
                                 {f.expected && <div className="text-muted-fg">Kỳ vọng: <code className="font-mono">{f.expected}</code></div>}
-                                {f.actual && <div className="text-muted-fg">Thực tế: <code className="font-mono text-red-300">{f.actual}</code></div>}
+                                {f.actual && <div className="text-muted-fg">Thực tế: <code className="font-mono text-status-error">{f.actual}</code></div>}
                               </div>
                             )
                           })()}

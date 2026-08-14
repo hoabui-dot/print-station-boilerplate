@@ -8,14 +8,14 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default:      'bg-brand text-white border-brand',
+        default:      'bg-brand text-on-strong border-brand',
         secondary:    'bg-surface-2 text-muted-fg border-border',
         destructive:  'bg-error/10 text-error border-error/25',
         success:      'bg-success/10 text-success border-success/25',
         warning:      'bg-warning/10 text-warning border-warning/25',
         outline:      'bg-transparent border-border-strong text-foreground',
         info:         'bg-info/10 text-info border-info/25',
-        admin:        'bg-brand text-white border-brand-dark',
+        admin:        'bg-brand text-on-strong border-brand-dark',
         member:       'bg-surface-2 text-foreground border-border',
         // Connection status — works in both light and dark
         connected:    'bg-success/10 text-success border-success/25',

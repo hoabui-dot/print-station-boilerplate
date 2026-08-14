@@ -60,13 +60,13 @@ function resolveLifecycle(printer: ReadyPrinter, live?: DeviceStatusLive): { isO
 }
 
 function lifecycleDot(lifecycle: string, isOnline: boolean): string {
-  if (!isOnline) return 'bg-red-400 opacity-50'
+  if (!isOnline) return 'bg-status-error opacity-50'
   const s = lifecycle.toLowerCase()
-  if (s === 'printing' || s === 'busy') return 'bg-indigo-400 animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.6)]'
-  if (s === 'waiting' || s === 'reconnecting' || s === 'connecting') return 'bg-amber-400 animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.5)]'
-  if (s === 'warning' || s === 'thermal warning') return 'bg-yellow-400 animate-pulse shadow-[0_0_8px_rgba(234,179,8,0.5)]'
-  if (s === 'error' || s === 'paper out' || s === 'ribbon out' || s === 'head open' || s === 'buffer full') return 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]'
-  return 'bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]'
+  if (s === 'printing' || s === 'busy') return 'bg-accent-color animate-pulse shadow-md'
+  if (s === 'waiting' || s === 'reconnecting' || s === 'connecting') return 'bg-status-warning animate-pulse shadow-md'
+  if (s === 'warning' || s === 'thermal warning') return 'bg-status-warning animate-pulse shadow-md'
+  if (s === 'error' || s === 'paper out' || s === 'ribbon out' || s === 'head open' || s === 'buffer full') return 'bg-status-error shadow-md'
+  return 'bg-status-success animate-pulse shadow-md'
 }
 
 function lifecycleLabel(lifecycle: string, isOnline: boolean): string {
@@ -75,37 +75,37 @@ function lifecycleLabel(lifecycle: string, isOnline: boolean): string {
 }
 
 function lifecycleLabelCls(lifecycle: string, isOnline: boolean): string {
-  if (!isOnline) return 'text-red-400 opacity-60'
+  if (!isOnline) return 'text-status-error opacity-60'
   const s = lifecycle.toLowerCase()
-  if (s === 'printing' || s === 'busy') return 'text-indigo-400'
-  if (s === 'waiting' || s === 'reconnecting' || s === 'connecting') return 'text-amber-400'
-  if (s === 'warning' || s === 'thermal warning') return 'text-yellow-400'
-  if (s === 'error' || s === 'paper out' || s === 'ribbon out' || s === 'head open' || s === 'buffer full') return 'text-red-500 font-bold'
-  return 'text-emerald-400'
+  if (s === 'printing' || s === 'busy') return 'text-accent-color'
+  if (s === 'waiting' || s === 'reconnecting' || s === 'connecting') return 'text-status-warning'
+  if (s === 'warning' || s === 'thermal warning') return 'text-status-warning'
+  if (s === 'error' || s === 'paper out' || s === 'ribbon out' || s === 'head open' || s === 'buffer full') return 'text-status-error font-bold'
+  return 'text-status-success'
 }
 
 function cardBorderCls(lifecycle: string, isOnline: boolean, active: boolean): string {
-  if (!isOnline) return 'border-red-500/10 bg-red-500/[0.01] opacity-60'
+  if (!isOnline) return 'border-status-error/10 bg-status-error/[0.01] opacity-60'
   const s = lifecycle.toLowerCase()
   const isFault = s === 'error' || s === 'paper out' || s === 'ribbon out' || s === 'head open' || s === 'buffer full'
   
-  if (isFault) return 'border-red-500/40 bg-red-500/[0.04]'
-  if (s === 'warning' || s === 'thermal warning') return 'border-yellow-500/30 bg-yellow-500/[0.03]'
-  if (s === 'printing' || s === 'busy') return 'border-indigo-500/40 bg-indigo-500/[0.04]'
-  if (s === 'waiting' || s === 'reconnecting' || s === 'connecting') return 'border-amber-500/30 bg-amber-500/[0.03]'
+  if (isFault) return 'border-status-error/40 bg-status-error/[0.04]'
+  if (s === 'warning' || s === 'thermal warning') return 'border-status-warning/30 bg-status-warning/[0.03]'
+  if (s === 'printing' || s === 'busy') return 'border-accent-color/40 bg-accent-color/[0.04]'
+  if (s === 'waiting' || s === 'reconnecting' || s === 'connecting') return 'border-status-warning/30 bg-status-warning/[0.03]'
   
-  if (active) return 'bg-emerald-500/[0.03] dark:bg-emerald-500/[0.06] border-emerald-500/30 dark:border-emerald-500/40'
+  if (active) return 'bg-status-success/[0.03] border-status-success/30'
   return 'bg-card border-border hover:border-border-strong'
 }
 
 function cardTopBar(lifecycle: string, isOnline: boolean): string {
-  if (!isOnline) return 'from-red-500/30 to-red-400/5'
+  if (!isOnline) return 'from-status-error/30 to-status-error/5'
   const s = lifecycle.toLowerCase()
-  if (s === 'printing' || s === 'busy') return 'from-indigo-500/50 to-indigo-400/10'
-  if (s === 'waiting' || s === 'reconnecting' || s === 'connecting') return 'from-amber-500/40 to-amber-400/10'
-  if (s === 'warning' || s === 'thermal warning') return 'from-yellow-500/40 to-yellow-400/10'
-  if (s === 'error' || s === 'paper out' || s === 'ribbon out' || s === 'head open' || s === 'buffer full') return 'from-red-500/60 to-red-400/20'
-  return 'from-emerald-500/50 to-emerald-400/10'
+  if (s === 'printing' || s === 'busy') return 'from-accent-color/50 to-accent-color/10'
+  if (s === 'waiting' || s === 'reconnecting' || s === 'connecting') return 'from-status-warning/40 to-status-warning/10'
+  if (s === 'warning' || s === 'thermal warning') return 'from-status-warning/40 to-status-warning/10'
+  if (s === 'error' || s === 'paper out' || s === 'ribbon out' || s === 'head open' || s === 'buffer full') return 'from-status-error/60 to-status-error/20'
+  return 'from-status-success/50 to-status-success/10'
 }
 
 function PrinterCard({
@@ -182,10 +182,10 @@ function PrinterCard({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className={`w-9.5 h-9.5 rounded-lg flex items-center justify-center shrink-0 ${
-            !isOnline ? 'bg-red-500/10 text-red-400'
+            !isOnline ? 'bg-status-error/10 text-status-error'
             : lifecycle.toLowerCase() === 'printing' || lifecycle.toLowerCase() === 'busy'
-              ? 'bg-indigo-500/10 text-indigo-400'
-              : active ? 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-400'
+              ? 'bg-accent-color/10 text-accent-color'
+              : active ? 'bg-status-success/10 text-status-success'
               : 'bg-brand/10 text-brand-light'
           }`}>
             <Printer size={18} />
@@ -217,7 +217,7 @@ function PrinterCard({
 
       {/* Fault Banners */}
       {isOnline && lifecycle === 'Paper Out' && (
-        <div className="px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-600 dark:text-amber-400 text-xs flex flex-col gap-0.5">
+        <div className="px-3 py-2 rounded-lg bg-status-warning/10 border border-status-warning/25 text-status-warning text-xs flex flex-col gap-0.5">
           <div className="font-bold flex items-center gap-1">
             <span>🟠 Hết giấy (Paper Roll Empty)</span>
           </div>
@@ -226,7 +226,7 @@ function PrinterCard({
       )}
 
       {isOnline && lifecycle === 'Head Open' && (
-        <div className="px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-600 dark:text-amber-400 text-xs flex flex-col gap-0.5">
+        <div className="px-3 py-2 rounded-lg bg-status-warning/10 border border-status-warning/25 text-status-warning text-xs flex flex-col gap-0.5">
           <div className="font-bold flex items-center gap-1">
             <span>🟠 Đầu in đang mở (Print Head Open)</span>
           </div>
@@ -235,7 +235,7 @@ function PrinterCard({
       )}
 
       {isOnline && lifecycle === 'Ribbon Out' && (
-        <div className="px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs flex flex-col gap-0.5">
+        <div className="px-3 py-2 rounded-lg bg-status-error/10 border border-status-error/20 text-status-error text-xs flex flex-col gap-0.5">
           <div className="font-bold flex items-center gap-1">
             <span>🔴 Hết mực (Ribbon Empty)</span>
           </div>
@@ -244,7 +244,7 @@ function PrinterCard({
       )}
 
       {isOnline && lifecycle === 'Buffer Full' && (
-        <div className="px-3 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/25 text-yellow-600 dark:text-yellow-400 text-xs flex flex-col gap-0.5">
+        <div className="px-3 py-2 rounded-lg bg-status-warning/10 border border-status-warning/25 text-status-warning text-xs flex flex-col gap-0.5">
           <div className="font-bold flex items-center gap-1">
             <span>🟡 Bộ nhớ đầy (Buffer Full)</span>
           </div>
@@ -253,7 +253,7 @@ function PrinterCard({
       )}
 
       {isOnline && lifecycle === 'Thermal Warning' && (
-        <div className="px-3 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/25 text-yellow-600 dark:text-yellow-400 text-xs flex flex-col gap-0.5">
+        <div className="px-3 py-2 rounded-lg bg-status-warning/10 border border-status-warning/25 text-status-warning text-xs flex flex-col gap-0.5">
           <div className="font-bold flex items-center gap-1">
             <span>🟡 Cảnh báo quá nhiệt (Thermal Warning)</span>
           </div>
@@ -262,15 +262,15 @@ function PrinterCard({
       )}
 
       {!isOnline && (
-        <div className="px-3 py-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs flex flex-col gap-2">
+        <div className="px-3 py-2.5 rounded-lg bg-status-error/10 border border-status-error/20 text-status-error text-xs flex flex-col gap-2">
           <div className="font-bold flex items-center justify-between">
             <span>🔴 Mất kết nối (Printer Offline)</span>
-            <span className="font-mono text-[9px] bg-red-500/15 px-1.5 py-0.5 rounded">Thử lại sau {retryCountdown}s</span>
+            <span className="font-mono text-[9px] bg-status-error/15 px-1.5 py-0.5 rounded">Thử lại sau {retryCountdown}s</span>
           </div>
           <button
             disabled={retrying}
             onClick={handleRetryClick}
-            className="w-full py-1.5 rounded bg-red-500 hover:bg-red-600 text-white font-bold text-xs disabled:opacity-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+            className="w-full py-1.5 rounded bg-status-error hover:bg-status-error text-on-strong font-bold text-xs disabled:opacity-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
           >
             {retrying ? 'Đang kết nối...' : 'Thử lại ngay'}
           </button>
@@ -287,7 +287,7 @@ function PrinterCard({
         {active ? (
           <button
             onClick={() => onDeactivate(printer)}
-            className="flex-1 py-2 rounded-lg border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-red-600 dark:text-red-400 text-xs font-bold transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+            className="flex-1 py-2 rounded-lg border border-status-error/20 bg-status-error/5 hover:bg-status-error/10 text-status-error text-xs font-bold transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <XCircle size={13} /> Gỡ sản xuất
           </button>
@@ -426,7 +426,7 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
       <div className="flex items-center justify-between border-b border-border pb-4">
         <div>
           <h2 className="text-lg font-extrabold text-foreground flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-dark to-brand flex items-center justify-center text-white shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-dark to-brand flex items-center justify-center text-on-strong shrink-0">
               <Printer size={18} />
             </div>
             Quản lý thiết bị in
@@ -445,7 +445,7 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
       </div>
 
       {error && (
-        <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-medium">
+        <div className="p-4 rounded-lg bg-status-error/10 border border-status-error/20 text-status-error text-xs font-medium">
           {error}
         </div>
       )}
@@ -453,12 +453,12 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
       {/* ── Active printers ── */}
       <section className="space-y-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-lg bg-status-success/10 text-status-success flex items-center justify-center shrink-0">
             <Zap size={14} />
           </div>
           <h3 className="text-sm font-bold text-foreground">Máy in đang sản xuất</h3>
           <span className={`px-2 py-0.5 rounded-full text-[11px] font-extrabold ${
-            activePrinters.length > 0 ? 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-400' : 'bg-muted text-muted-fg'
+            activePrinters.length > 0 ? 'bg-status-success/10 text-status-success' : 'bg-muted text-muted-fg'
           }`}>
             {activePrinters.length}
           </span>
@@ -483,9 +483,9 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
       {/* Persisted but currently unavailable devices remain visible for reconnect diagnostics. */}
       {offlinePrinters.length > 0 && <section className="space-y-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-red-500/10 text-red-500 flex items-center justify-center shrink-0"><WifiOff size={14} /></div>
+          <div className="w-7 h-7 rounded-lg bg-status-error/10 text-status-error flex items-center justify-center shrink-0"><WifiOff size={14} /></div>
           <h3 className="text-sm font-bold text-foreground">Thiết bị đã đăng ký, đang mất kết nối</h3>
-          <span className="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-red-500/10 text-red-500">{offlinePrinters.length}</span>
+          <span className="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-status-error/10 text-status-error">{offlinePrinters.length}</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {offlinePrinters.map(p => <PrinterCard key={p.printerCode} printer={p} liveStatus={liveMap.get(p.printerCode.toLowerCase())} onActivate={openActivate} onDeactivate={setDeactivatingPrinter} onShowDetails={setDetailedPrinter} onRefresh={fetchData} />)}
@@ -539,7 +539,7 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
           </DialogHeader>
 
           {activateError && (
-            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-medium">
+            <div className="p-3 rounded-lg bg-status-error/10 border border-status-error/20 text-status-error text-xs font-medium">
               {activateError}
             </div>
           )}
@@ -580,7 +580,7 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
             <Button
               onClick={handleTemplateSelected}
               disabled={!selectedTemplateId}
-              className="bg-brand hover:bg-brand-dark text-white font-bold"
+              className="bg-brand hover:bg-brand-dark text-on-strong font-bold"
             >
               Tiếp tục
             </Button>
@@ -593,7 +593,7 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="text-foreground font-bold flex items-center gap-2">
-              <CheckCircle2 size={18} className="text-emerald-500" />
+              <CheckCircle2 size={18} className="text-status-success" />
               Xác nhận thêm vào sản xuất
             </DialogTitle>
             <DialogDescription className="text-muted-fg text-xs leading-relaxed mt-1">
@@ -629,7 +629,7 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
                   }
                 }
               }}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold border-none"
+              className="bg-status-success hover:bg-status-success text-on-strong font-bold border-none"
             >
               {activateLoading ? 'Đang kích hoạt...' : 'Xác nhận & Thêm'}
             </Button>
@@ -642,7 +642,7 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="text-foreground font-bold flex items-center gap-2">
-              <XCircle size={18} className="text-red-500" />
+              <XCircle size={18} className="text-status-error" />
               Xác nhận gỡ khỏi sản xuất
             </DialogTitle>
             <DialogDescription className="text-muted-fg text-xs leading-relaxed mt-1">
@@ -660,7 +660,7 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
                   setDeactivatingPrinter(null)
                 }
               }}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold border-none"
+              className="bg-status-error hover:bg-status-error text-on-strong font-bold border-none"
             >
               Xác nhận gỡ
             </Button>
@@ -692,8 +692,8 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
                     <div className="text-sm font-semibold flex items-center gap-2 text-foreground">
                       <span className={`w-2.5 h-2.5 rounded-full ${
                         isDetailedOnline
-                          ? 'bg-emerald-500 animate-pulse'
-                          : 'bg-red-500'
+                          ? 'bg-status-success animate-pulse'
+                          : 'bg-status-error'
                       }`} />
                       {isDetailedOnline ? 'ONLINE (TCP/IP)' : 'OFFLINE'}
                     </div>
@@ -732,18 +732,18 @@ export function PrinterManagementTab({ deviceStatuses = [] }: { deviceStatuses?:
                     <div className="space-y-1">
                       <span className="text-[10px] uppercase tracking-wider text-muted-fg font-extrabold">Nhiệt độ đầu in (Thermal Temp)</span>
                       <div className={`text-base font-extrabold font-mono flex items-center gap-1.5 ${
-                        isDetailedOnline && maintenanceInfo?.thermalWarning ? 'text-red-500' : 'text-emerald-500'
+                        isDetailedOnline && maintenanceInfo?.thermalWarning ? 'text-status-error' : 'text-status-success'
                       }`}>
                         {isDetailedOnline 
                           ? (maintenanceInfo?.currentTemperature !== undefined ? `${maintenanceInfo.currentTemperature}°C` : 'Đang đọc...') 
                           : 'N/A (Ngoại tuyến)'}
-                        {isDetailedOnline && maintenanceInfo?.thermalWarning && <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-500/10 text-red-500 animate-pulse">Quá nhiệt</span>}
+                        {isDetailedOnline && maintenanceInfo?.thermalWarning && <span className="text-[10px] px-1.5 py-0.5 rounded bg-status-error/10 text-status-error animate-pulse">Quá nhiệt</span>}
                       </div>
                     </div>
                   </div>
 
                   {detailedPrinter.isActiveForWork && detailedPrinter.activeTemplateName && (
-                    <div className="col-span-2 flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
+                    <div className="col-span-2 flex items-center gap-2 px-3 py-2 rounded-lg bg-status-success/10 border border-status-success/20 text-status-success font-semibold mt-1">
                       <Tag size={12} className="shrink-0" />
                       <span>Mẫu nhãn hoạt động: {detailedPrinter.activeTemplateName}</span>
                     </div>

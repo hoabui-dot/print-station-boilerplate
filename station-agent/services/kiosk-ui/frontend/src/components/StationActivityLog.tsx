@@ -17,14 +17,14 @@ function getStatusConfig(status: string) {
   if (s === 'COMPLETED') return {
     label: 'Hoàn thành',
     icon: <CheckCircle className="h-4 w-4" />,
-    className: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
-    dot: 'bg-emerald-400'
+    className: 'text-status-success bg-status-success/10 border-status-success/30',
+    dot: 'bg-status-success'
   }
   if (s === 'FAILED' || s === 'WAIT_REWORK') return {
     label: s === 'FAILED' ? 'Thất bại' : 'Chờ xử lý',
     icon: <XCircle className="h-4 w-4" />,
-    className: 'text-red-400 bg-red-500/10 border-red-500/30',
-    dot: 'bg-red-400'
+    className: 'text-status-error bg-status-error/10 border-status-error/30',
+    dot: 'bg-status-error'
   }
   if (s === 'PROCESSING' || s === 'PRINTING' || s === 'VERIFYING') return {
     label: 'Đang xử lý',
@@ -36,7 +36,7 @@ function getStatusConfig(status: string) {
     label: 'Đang chờ',
     icon: <Clock className="h-4 w-4" />,
     className: 'text-muted-fg bg-surface-2 border-border',
-    dot: 'bg-muted-fg'
+    dot: 'bg-muted'
   }
 }
 

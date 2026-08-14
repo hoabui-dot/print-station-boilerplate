@@ -54,7 +54,7 @@ export function translateJobType(type: string): string {
 
 /** Get Tailwind color class for job status */
 export function getStatusColor(status: string): string {
-  return JOB_STATUS_COLORS[status] ?? 'bg-slate-500'
+  return JOB_STATUS_COLORS[status] ?? 'bg-muted'
 }
 
 const ALARM_SEVERITY_LABELS: Record<string, string> = {

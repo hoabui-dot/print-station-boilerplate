@@ -77,7 +77,7 @@ function WmsBarcodeTemplateTab({ template, onEdit }: { template: LabelTemplate |
         <div className="flex items-start justify-between gap-4"><div><h2 className="font-semibold text-foreground">Template đang sử dụng</h2><p className="mt-1 text-xs text-muted-fg">Mọi request WMS đều render từ template này, không dùng style gửi kèm request.</p></div><span className="rounded-full border border-success/25 bg-success/10 px-2.5 py-1 text-xs font-semibold text-success">{template?.status === 'published' ? 'Phát hành' : 'Chưa sẵn sàng'}</span></div>
         {template ? <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2"><div><span className="text-muted-fg">Tên template</span><p className="font-semibold text-foreground">{template.name}</p></div><div><span className="text-muted-fg">Mã template</span><p className="font-mono text-foreground">{template.templateCode}</p></div><div><span className="text-muted-fg">Kích thước</span><p className="font-mono text-foreground">{template.labelWidth} × {template.labelHeight} mm</p></div><div><span className="text-muted-fg">Phiên bản</span><p className="font-mono text-foreground">v{template.version} · {template.dpi} DPI</p></div></div> : <p className="mt-5 text-sm text-warning">Không tìm thấy template WMS. Hãy chạy seed của printer station.</p>}
       </div>
-      <div className="rounded-xl border border-border bg-card p-6 [box-shadow:var(--shadow-sm)]"><h2 className="font-semibold text-foreground">Xem trước</h2><p className="mt-1 text-xs text-muted-fg">Payload mẫu được mã hóa trong một barcode duy nhất.</p><div className="mt-5 flex aspect-[2/1] items-center justify-center overflow-hidden rounded border-2 border-dashed border-border bg-white p-4"><div className="h-2/3 w-4/5" style={{ background: 'repeating-linear-gradient(90deg,#111 0,#111 2px,transparent 2px,transparent 5px)' }} aria-label="Barcode CODE128 WMS" /></div><div className="mt-4 grid gap-1 text-xs text-muted-fg"><span>CODE128 · Payload WMS · Hex encoded</span><span>Không có QR, text hoặc template thứ hai</span></div></div>
+      <div className="rounded-xl border border-border bg-card p-6 [box-shadow:var(--shadow-sm)]"><h2 className="font-semibold text-foreground">Xem trước</h2><p className="mt-1 text-xs text-muted-fg">Payload mẫu được mã hóa trong một barcode duy nhất.</p><div className="mt-5 flex aspect-[2/1] items-center justify-center overflow-hidden rounded border-2 border-dashed border-border bg-preview-paper p-4"><div className="h-2/3 w-4/5" style={{ background: 'repeating-linear-gradient(90deg,hsl(var(--preview-ink)) 0,hsl(var(--preview-ink)) 2px,transparent 2px,transparent 5px)' }} aria-label="Barcode CODE128 WMS" /></div><div className="mt-4 grid gap-1 text-xs text-muted-fg"><span>CODE128 · Payload WMS · Hex encoded</span><span>Không có QR, text hoặc template thứ hai</span></div></div>
     </div>
   </div>
 }
@@ -94,7 +94,7 @@ function TemplateBadge({ status }: { status: string }) {
     draft: {
       label: 'Nháp',
       cls: 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[13px] font-semibold border bg-surface-2 text-muted-fg border-border',
-      dot: 'bg-muted-fg',
+      dot: 'bg-muted',
     },
     archived: {
       label: 'Lưu trữ',
@@ -120,14 +120,14 @@ function DefaultTemplateBadge() {
 // ── Category Badge ────────────────────────────────────────────────────────────
 
 const CATEGORY_META: Record<string, { label: string; color: string }> = {
-  PRODUCT:    { label: 'Product',    color: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20' },
-  WIP:        { label: 'WIP',        color: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-500/10 dark:text-cyan-400 dark:border-cyan-500/20' },
-  PALLET:     { label: 'Pallet',     color: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-500/10 dark:text-violet-400 dark:border-violet-500/20' },
-  SHELF:      { label: 'Shelf',      color: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-500/10 dark:text-teal-400 dark:border-teal-500/20' },
-  INSPECTION: { label: 'Inspection', color: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20' },
-  MATERIAL:   { label: 'Material',   color: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-500/10 dark:text-orange-400 dark:border-orange-500/20' },
-  SHEET:      { label: 'Sheet',      color: 'bg-lime-50 text-lime-700 border-lime-200 dark:bg-lime-500/10 dark:text-lime-400 dark:border-lime-500/20' },
-  ISSUE:      { label: 'Issue',      color: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20' },
+  PRODUCT:    { label: 'Product',    color: 'bg-accent-color/10 text-accent-color border-accent-color/20' },
+  WIP:        { label: 'WIP',        color: 'bg-status-info/10 text-status-info border-status-info/20' },
+  PALLET:     { label: 'Pallet',     color: 'bg-accent-color/10 text-accent-color border-accent-color/20' },
+  SHELF:      { label: 'Shelf',      color: 'bg-accent-color/10 text-accent-color border-accent-color/20' },
+  INSPECTION: { label: 'Inspection', color: 'bg-status-warning/10 text-status-warning border-status-warning/20' },
+  MATERIAL:   { label: 'Material',   color: 'bg-brand/10 text-brand border-brand/20' },
+  SHEET:      { label: 'Sheet',      color: 'bg-accent-color/10 text-accent-color border-accent-color/20' },
+  ISSUE:      { label: 'Issue',      color: 'bg-status-error/10 text-status-error border-status-error/20' },
 }
 
 function CategoryBadge({ category }: { category?: string }) {
@@ -320,8 +320,8 @@ function TemplateEditorDialog({
                 <label className={labelCls}>Cột nhãn (Column Across)</label>
                 <div className="flex items-center gap-3">
                   <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[13px] font-bold border ${
-                    layoutType === '3UP' ? 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-500/10 dark:text-violet-400 dark:border-violet-500/20'
-                    : layoutType === '2UP' ? 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-500/10 dark:text-cyan-400 dark:border-cyan-500/20'
+                    layoutType === '3UP' ? 'bg-accent-color/10 text-accent-color border-accent-color/20'
+                    : layoutType === '2UP' ? 'bg-status-info/10 text-status-info border-status-info/20'
                     : 'bg-surface-2 text-muted-fg border-border'
                   }`}>
                     {layoutType === '1UP' ? '1 cột nhãn (1 nhãn / hàng)'
@@ -429,7 +429,7 @@ function TemplateEditorDialog({
                     </SelectContent>
                   </Select>
                   <Button id="tpl-test-print-btn" size="sm" onClick={handleTestPrint} disabled={testing}
-                    className="bg-info hover:bg-info/90 text-white h-10 px-4 gap-2">
+                    className="bg-info hover:bg-info/90 text-on-strong h-10 px-4 gap-2">
                     {testing ? <RefreshCw size={14} className="animate-spin" /> : <PrinterIcon size={14} />}
                     Test Print
                   </Button>
@@ -909,16 +909,16 @@ export function LabelTemplatesTab() {
                   onClick={() => { setLayoutTab(tab.key); setSearch('') }}
                   className={`flex items-center gap-2.5 px-5 py-2.5 rounded-lg text-[14px] font-semibold transition-all duration-200 cursor-pointer ${
                     active
-                      ? tab.key === '2UP' ? 'bg-cyan-500 text-white shadow-sm'
-                        : tab.key === '3UP' ? 'bg-violet-500 text-white shadow-sm'
-                        : 'bg-brand text-white shadow-sm'
+                      ? tab.key === '2UP' ? 'bg-status-info text-on-strong shadow-sm'
+                        : tab.key === '3UP' ? 'bg-accent-color text-on-strong shadow-sm'
+                        : 'bg-brand text-on-strong shadow-sm'
                       : 'text-muted-fg hover:text-foreground hover:bg-surface'
                   }`}
                 >
                   <span className="font-mono text-[11px] opacity-70 tracking-tight">{tab.emoji}</span>
                   <span>{tab.label}</span>
                   <span className={`text-[12px] font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center tabular-nums ${
-                    active ? 'bg-white/20 text-white' : 'bg-surface text-muted-fg'
+                    active ? 'bg-overlay/20 text-on-strong' : 'bg-surface text-muted-fg'
                   }`}>
                     {countFor(tab.key)}
                   </span>

@@ -48,8 +48,8 @@ export function BarcodePreview({
         fontSize: 11,
         textMargin: 4,
         margin: 8,
-        background: '#ffffff',
-        lineColor: '#000000',
+        background: 'hsl(var(--preview-paper))',
+        lineColor: 'hsl(var(--preview-ink))',
       })
     } catch {
       // Fall back to CODE128 for symbologies with strict validation (EAN, UPC)
@@ -63,8 +63,8 @@ export function BarcodePreview({
             fontSize: 11,
             textMargin: 4,
             margin: 8,
-            background: '#ffffff',
-            lineColor: '#000000',
+            background: 'hsl(var(--preview-paper))',
+            lineColor: 'hsl(var(--preview-ink))',
           })
         } catch { /* ignore */ }
       }
@@ -84,14 +84,14 @@ export function BarcodePreview({
     <div
       className={[
         'flex flex-col items-center justify-center',
-        showLabelBorder ? 'border border-border/50 rounded-lg p-3 bg-white shadow-inner' : '',
+        showLabelBorder ? 'border border-border/50 rounded-lg p-3 bg-preview-paper shadow-inner' : '',
         className,
       ].join(' ')}
     >
       <svg
         ref={svgRef}
         className="max-w-full"
-        style={{ background: '#ffffff', borderRadius: 2 }}
+        style={{ background: 'hsl(var(--preview-paper))', borderRadius: 2 }}
       />
     </div>
   )

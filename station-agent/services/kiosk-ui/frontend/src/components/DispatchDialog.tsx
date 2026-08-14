@@ -37,17 +37,17 @@ const PHYSICAL_PRINTER_CODE = 'Zebra-GK420t-CUPS'
 function StatusDot({ ready, status }: { ready: boolean; status: string }) {
   const s = status?.toLowerCase()
   if (s === 'idle' || s === 'printing' || ready)
-    return <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)] mr-1.5 animate-pulse" />
+    return <span className="inline-block w-2.5 h-2.5 rounded-full bg-status-success shadow-md mr-1.5 animate-pulse" />
   if (s === 'offline' || s === 'disconnected')
-    return <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-400 mr-1.5" />
-  return <span className="inline-block w-2.5 h-2.5 rounded-full bg-yellow-400 mr-1.5 animate-pulse" />
+    return <span className="inline-block w-2.5 h-2.5 rounded-full bg-status-error mr-1.5" />
+  return <span className="inline-block w-2.5 h-2.5 rounded-full bg-status-warning mr-1.5 animate-pulse" />
 }
 
 function statusColor(ready: boolean, status: string) {
   const s = status?.toLowerCase()
-  if (s === 'idle' || s === 'printing' || ready) return 'text-emerald-400'
-  if (s === 'offline' || s === 'disconnected') return 'text-red-400'
-  return 'text-yellow-400'
+  if (s === 'idle' || s === 'printing' || ready) return 'text-status-success'
+  if (s === 'offline' || s === 'disconnected') return 'text-status-error'
+  return 'text-status-warning'
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -130,17 +130,17 @@ export function DispatchDialog({
   return (
     <Dialog open={open} onOpenChange={v => { if (!v && !isSubmitting) onClose() }}>
       <DialogContent
-        className="max-w-lg bg-[#0f1117] border border-white/10 text-white shadow-2xl rounded-2xl overflow-hidden p-0"
+        className="max-w-lg bg-card border border-border text-foreground shadow-2xl rounded-2xl overflow-hidden p-0"
         style={{ maxWidth: 540 }}
       >
         {/* Header */}
-        <div className="px-6 pt-6 pb-4 border-b border-white/10 bg-gradient-to-r from-[#1a1d2e] to-[#0f1117]">
+        <div className="px-6 pt-6 pb-4 border-b border-border bg-gradient-to-r from-surface-3 to-card">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-lg font-semibold text-white">
+            <DialogTitle className="flex items-center gap-2 text-lg font-semibold text-on-strong">
               <Zap size={18} className="text-brand" />
               Dispatch Production Jobs
             </DialogTitle>
-            <DialogDescription className="text-sm text-white/50 mt-1">
+            <DialogDescription className="text-sm text-on-strong/50 mt-1">
               Select the execution target before dispatching.
             </DialogDescription>
           </DialogHeader>
@@ -149,7 +149,7 @@ export function DispatchDialog({
         <div className="px-6 py-5 space-y-5">
           {/* ── Execution Target ── */}
           <div>
-            <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3">
+            <p className="text-xs font-semibold text-on-strong/40 uppercase tracking-widest mb-3">
               Execution Target
             </p>
             <div className="grid grid-cols-2 gap-3">
@@ -158,15 +158,15 @@ export function DispatchDialog({
                 onClick={() => setTarget('simulation')}
                 className={`relative flex flex-col items-start gap-1.5 p-4 rounded-xl border transition-all duration-200 text-left cursor-pointer
                   ${target === 'simulation'
-                    ? 'border-brand bg-brand/10 shadow-[0_0_20px_rgba(99,102,241,0.15)]'
-                    : 'border-white/10 bg-white/5 hover:border-white/25 hover:bg-white/8'}`}
+                    ? 'border-brand bg-brand/10 shadow-md'
+                    : 'border-on-strong/10 bg-overlay/5 hover:border-on-strong/25 hover:bg-overlay/8'}`}
                 id="dispatch-target-simulation"
               >
-                <div className={`flex items-center gap-2 ${target === 'simulation' ? 'text-brand-light' : 'text-white/70'}`}>
+                <div className={`flex items-center gap-2 ${target === 'simulation' ? 'text-brand-light' : 'text-on-strong/70'}`}>
                   <Cpu size={16} />
                   <span className="font-semibold text-sm">Simulation</span>
                 </div>
-                <p className="text-xs text-white/40 leading-relaxed">
+                <p className="text-xs text-on-strong/40 leading-relaxed">
                   Device Simulator — no physical labels printed.
                 </p>
                 {target === 'simulation' && (
@@ -181,20 +181,20 @@ export function DispatchDialog({
                 onClick={() => setTarget('production-printer')}
                 className={`relative flex flex-col items-start gap-1.5 p-4 rounded-xl border transition-all duration-200 text-left cursor-pointer
                   ${target === 'production-printer'
-                    ? 'border-emerald-500/60 bg-emerald-500/10 shadow-[0_0_20px_rgba(52,211,153,0.12)]'
-                    : 'border-white/10 bg-white/5 hover:border-white/25 hover:bg-white/8'}`}
+                    ? 'border-status-success/60 bg-status-success/10 shadow-md'
+                    : 'border-on-strong/10 bg-overlay/5 hover:border-on-strong/25 hover:bg-overlay/8'}`}
                 id="dispatch-target-production-printer"
               >
-                <div className={`flex items-center gap-2 ${target === 'production-printer' ? 'text-emerald-400' : 'text-white/70'}`}>
+                <div className={`flex items-center gap-2 ${target === 'production-printer' ? 'text-status-success' : 'text-on-strong/70'}`}>
                   <PrinterIcon size={16} />
                   <span className="font-semibold text-sm">Production Printer</span>
                 </div>
-                <p className="text-xs text-white/40 leading-relaxed">
+                <p className="text-xs text-on-strong/40 leading-relaxed">
                   Zebra ZD421 (300 dpi) — physical labels via CUPS.
                 </p>
                 {target === 'production-printer' && (
                   <span className="absolute top-3 right-3">
-                    <CheckCircle2 size={14} className="text-emerald-400" />
+                    <CheckCircle2 size={14} className="text-status-success" />
                   </span>
                 )}
               </button>
@@ -203,9 +203,9 @@ export function DispatchDialog({
 
           {/* ── Connection Info (Physical Printer only) ── */}
           {target === 'production-printer' && (
-            <div className="rounded-xl border border-white/10 bg-white/5 overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/3">
-                <span className="text-xs font-semibold text-white/50 uppercase tracking-widest">
+            <div className="rounded-xl border border-on-strong/10 bg-overlay/5 overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-on-strong/10 bg-overlay/3">
+                <span className="text-xs font-semibold text-on-strong/50 uppercase tracking-widest">
                   Connection
                 </span>
                 <button
@@ -221,17 +221,17 @@ export function DispatchDialog({
               </div>
 
               {healthLoading && !printerHealth ? (
-                <div className="flex items-center justify-center py-6 gap-2 text-white/40 text-sm">
+                <div className="flex items-center justify-center py-6 gap-2 text-on-strong/40 text-sm">
                   <Loader2 size={16} className="animate-spin" />
                   Checking printer status...
                 </div>
               ) : healthError ? (
-                <div className="flex items-center gap-2 px-4 py-4 text-red-400 text-sm">
+                <div className="flex items-center gap-2 px-4 py-4 text-status-error text-sm">
                   <WifiOff size={14} />
                   {healthError}
                 </div>
               ) : printerHealth ? (
-                <div className="divide-y divide-white/5">
+                <div className="divide-y divide-on-strong/5">
                   {[
                     ['Printer', printerHealth.displayName],
                     ['Protocol', 'IPP / CUPS'],
@@ -240,12 +240,12 @@ export function DispatchDialog({
                     ['Queue', printerHealth.cupsQueueName ?? '—'],
                   ].map(([label, value]) => (
                     <div key={label} className="flex items-center justify-between px-4 py-2.5">
-                      <span className="text-xs text-white/40">{label}</span>
-                      <span className="text-xs text-white/80 font-mono">{value}</span>
+                      <span className="text-xs text-on-strong/40">{label}</span>
+                      <span className="text-xs text-on-strong/80 font-mono">{value}</span>
                     </div>
                   ))}
                   <div className="flex items-center justify-between px-4 py-2.5">
-                    <span className="text-xs text-white/40">Status</span>
+                    <span className="text-xs text-on-strong/40">Status</span>
                     <span className={`text-xs font-semibold flex items-center ${statusColor(printerHealth.isReady, printerHealth.status)}`}>
                       <StatusDot ready={printerHealth.isReady} status={printerHealth.status} />
                       {printerHealth.status}
@@ -255,24 +255,24 @@ export function DispatchDialog({
               ) : null}
 
               {/* Test connection */}
-              <div className="px-4 py-3 border-t border-white/10 flex items-center justify-between gap-3">
+              <div className="px-4 py-3 border-t border-on-strong/10 flex items-center justify-between gap-3">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={handleTestConnection}
                   disabled={testLoading || healthLoading}
-                  className="h-7 text-xs border-white/15 bg-transparent hover:bg-white/10 text-white/70"
+                  className="h-7 text-xs border-on-strong/15 bg-transparent hover:bg-overlay/10 text-on-strong/70"
                   id="btn-test-connection"
                 >
                   {testLoading ? <><Loader2 size={11} className="animate-spin mr-1" />Testing...</> : 'Test Connection'}
                 </Button>
                 {testResult === 'success' && (
-                  <span className="text-xs text-emerald-400 flex items-center gap-1">
+                  <span className="text-xs text-status-success flex items-center gap-1">
                     <CheckCircle2 size={12} /> Connection OK
                   </span>
                 )}
                 {testResult === 'fail' && (
-                  <span className="text-xs text-red-400 flex items-center gap-1">
+                  <span className="text-xs text-status-error flex items-center gap-1">
                     <XCircle size={12} /> Connection failed
                   </span>
                 )}
@@ -280,9 +280,9 @@ export function DispatchDialog({
 
               {/* Validation warning */}
               {!printerHealth?.isReady && !healthLoading && !healthError && (
-                <div className="mx-4 mb-3 flex items-start gap-2 rounded-lg bg-red-500/10 border border-red-500/20 px-3 py-2.5">
-                  <AlertTriangle size={13} className="text-red-400 mt-0.5 flex-shrink-0" />
-                  <p className="text-xs text-red-300">
+                <div className="mx-4 mb-3 flex items-start gap-2 rounded-lg bg-status-error/10 border border-status-error/20 px-3 py-2.5">
+                  <AlertTriangle size={13} className="text-status-error mt-0.5 flex-shrink-0" />
+                  <p className="text-xs text-status-error">
                     Printer is not ready. Dispatch is disabled until the printer is Online.
                   </p>
                 </div>
@@ -291,18 +291,18 @@ export function DispatchDialog({
           )}
 
           {/* ── Dispatch Summary ── */}
-          <div className="rounded-xl border border-white/10 bg-white/5 divide-y divide-white/5">
+          <div className="rounded-xl border border-on-strong/10 bg-overlay/5 divide-y divide-on-strong/5">
             <div className="flex items-center justify-between px-4 py-2.5">
-              <span className="text-xs text-white/40">Jobs to dispatch</span>
-              <Badge variant="outline" className="text-xs border-white/20 text-white/70">{itemCount} items</Badge>
+              <span className="text-xs text-on-strong/40">Jobs to dispatch</span>
+              <Badge variant="outline" className="text-xs border-on-strong/20 text-on-strong/70">{itemCount} items</Badge>
             </div>
             <div className="flex items-center justify-between px-4 py-2.5">
-              <span className="text-xs text-white/40">Job Type</span>
-              <span className="text-xs text-white/70">{jobTypeLabel()}</span>
+              <span className="text-xs text-on-strong/40">Job Type</span>
+              <span className="text-xs text-on-strong/70">{jobTypeLabel()}</span>
             </div>
             <div className="flex items-center justify-between px-4 py-2.5">
-              <span className="text-xs text-white/40">Target</span>
-              <span className={`text-xs font-semibold ${target === 'production-printer' ? 'text-emerald-400' : 'text-brand-light'}`}>
+              <span className="text-xs text-on-strong/40">Target</span>
+              <span className={`text-xs font-semibold ${target === 'production-printer' ? 'text-status-success' : 'text-brand-light'}`}>
                 {target === 'production-printer' ? 'Production Printer' : 'Simulation Environment'}
               </span>
             </div>
@@ -310,8 +310,8 @@ export function DispatchDialog({
 
           {/* ── Notes ── */}
           <div>
-            <label htmlFor="dispatch-notes" className="block text-xs text-white/40 mb-1.5">
-              Dispatch Notes <span className="text-white/25">(optional)</span>
+            <label htmlFor="dispatch-notes" className="block text-xs text-on-strong/40 mb-1.5">
+              Dispatch Notes <span className="text-on-strong/25">(optional)</span>
             </label>
             <textarea
               id="dispatch-notes"
@@ -319,18 +319,18 @@ export function DispatchDialog({
               onChange={e => setNotes(e.target.value)}
               rows={2}
               placeholder="Add notes for this dispatch..."
-              className="w-full rounded-lg bg-white/5 border border-white/10 text-sm text-white/80 placeholder-white/25 px-3 py-2 resize-none focus:outline-none focus:border-brand/50 focus:bg-white/8 transition-colors"
+              className="w-full rounded-lg bg-overlay/5 border border-on-strong/10 text-sm text-on-strong/80 placeholder-white/25 px-3 py-2 resize-none focus:outline-none focus:border-brand/50 focus:bg-overlay/8 transition-colors"
             />
           </div>
         </div>
 
         {/* Footer */}
-        <DialogFooter className="px-6 py-4 border-t border-white/10 bg-[#0d0f1a] flex items-center gap-3">
+        <DialogFooter className="px-6 py-4 border-t border-border bg-surface-2 flex items-center gap-3">
           <Button
             variant="outline"
             onClick={onClose}
             disabled={isSubmitting}
-            className="flex-1 border-white/15 bg-transparent hover:bg-white/10 text-white/70 h-10"
+            className="flex-1 border-on-strong/15 bg-transparent hover:bg-overlay/10 text-on-strong/70 h-10"
             id="btn-dispatch-cancel"
           >
             Cancel
@@ -340,8 +340,8 @@ export function DispatchDialog({
             disabled={!canDispatch || isSubmitting}
             className={`flex-1 h-10 font-semibold transition-all duration-200 ${
               target === 'production-printer'
-                ? 'bg-emerald-600 hover:bg-emerald-500 text-white disabled:bg-emerald-900 disabled:text-emerald-600'
-                : 'bg-brand hover:bg-brand/90 text-white disabled:opacity-40'
+                ? 'bg-status-success hover:bg-status-success text-on-strong disabled:bg-status-success disabled:text-status-success'
+                : 'bg-brand hover:bg-brand/90 text-on-strong disabled:opacity-40'
             }`}
             id="btn-dispatch-confirm"
           >

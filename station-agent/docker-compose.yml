@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-changeme}"
     ports:
-      - "6380:6379"
+      - "${PORT_REDIS_HOST:-16080}:6379"
     volumes:
       - redis-data:/data
     networks:
@@ -26,8 +26,8 @@ services:
     container_name: psb-rabbitmq
     restart: unless-stopped
     ports:
-      - "5673:5672"
-      - "15673:15672"   # Management UI
+      - "${PORT_RABBITMQ_HOST:-15683}:5672"
+      - "${PORT_RABBITMQ_MANAGEMENT_HOST:-15684}:15672"   # Management UI
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-guest}
@@ -52,7 +52,7 @@ services:
     container_name: psb-station-gateway
     restart: unless-stopped
     ports:
-      - "${PORT_STATION_GATEWAY:-5001}:5001"
+      - "${PORT_STATION_GATEWAY:-15001}:5001"
     depends_on:
       redis:
         condition: service_healthy
@@ -94,7 +94,7 @@ services:
       rabbitmq:
         condition: service_healthy
     ports:
-      - "5002:5002"
+      - "${PORT_JOB_ENGINE:-15002}:5002"
     environment:
       - STATION_ID=${STATION_ID:-PS-CANONICAL-01}
       - REDIS_CONNECTION_STRING=redis:6379,password=${REDIS_PASSWORD:-changeme}
@@ -139,7 +139,7 @@ services:
       rabbitmq:
         condition: service_healthy
     ports:
-      - "5003:5003"
+      - "${PORT_PRINTER_ADAPTER:-15003}:5003"
     environment:
       - STATION_ID=${STATION_ID:-PS-CANONICAL-01}
       - REDIS_CONNECTION_STRING=redis:6379,password=${REDIS_PASSWORD:-changeme}
@@ -196,7 +196,7 @@ services:
       rabbitmq:
         condition: service_healthy
     ports:
-      - "5004:5004"
+      - "${PORT_LASER_ADAPTER:-15004}:5004"
     environment:
       - STATION_ID=${STATION_ID:-STATION-01}
       - REDIS_CONNECTION_STRING=redis:6379,password=${REDIS_PASSWORD:-changeme}
@@ -230,7 +230,7 @@ services:
       redis:
         condition: service_healthy
     ports:
-      - "5005:5005"
+      - "${PORT_VISION_SERVICE:-15005}:5005"
     environment:
       - STATION_ID=${STATION_ID:-STATION-01}
       - REDIS_CONNECTION_STRING=redis:6379,password=${REDIS_PASSWORD:-changeme}
@@ -258,7 +258,7 @@ services:
       redis:
         condition: service_healthy
     ports:
-      - "5006:5006"
+      - "${PORT_PLC_ADAPTER:-15006}:5006"
     environment:
       - STATION_ID=${STATION_ID:-STATION-01}
       - REDIS_CONNECTION_STRING=redis:6379,password=${REDIS_PASSWORD:-changeme}
@@ -286,7 +286,7 @@ services:
       rabbitmq:
         condition: service_healthy
     ports:
-      - "5007:5007"
+      - "${PORT_KIOSK_UI:-15007}:5007"
     environment:
       - STATION_ID=${STATION_ID:-STATION-01}
       - REDIS_CONNECTION_STRING=redis:6379,password=${REDIS_PASSWORD:-changeme}
@@ -295,6 +295,8 @@ services:
       - Jwt__Issuer=${JWT_ISSUER:-nd-station-agent}
       - Jwt__Audience=${JWT_AUDIENCE:-nd-kiosk}
       - LOCAL_ADMIN_PASSWORD=${LOCAL_ADMIN_PASSWORD:-admin123}
+      - ALARM_SEED_ENABLED=${ALARM_SEED_ENABLED:-true}
+      - ALARM_SEED_PASSWORD=${ALARM_SEED_PASSWORD:-AlarmDemo!2026}
       - ASPNETCORE_ENVIRONMENT=Production
       - PROJECTION_SERVICE_URL=http://projection-service:5009
       - JOB_ENGINE_HOST=${JOB_ENGINE_HOST:-job-engine}
@@ -330,7 +332,7 @@ services:
       redis:
         condition: service_healthy
     ports:
-      - "5008:8080"
+      - "${PORT_DEVICE_SIMULATOR:-15008}:8080"
     environment:
       - ConnectionStrings__Sqlite=Data Source=/data/device-simulator.db
       - ConnectionStrings__Redis=redis:6379,password=${REDIS_PASSWORD:-changeme}
@@ -366,7 +368,7 @@ services:
       rabbitmq:
         condition: service_healthy
     ports:
-      - "5009:5009"
+      - "${PORT_PROJECTION_SERVICE:-15009}:5009"
     environment:
       - STATION_ID=${STATION_ID:-STATION-01}
       - SQLITE_PROJECTION_PATH=/data/projection.db
@@ -402,7 +404,7 @@ services:
     container_name: psb-mqtt-broker
     restart: unless-stopped
     ports:
-      - "1883:1883"
+      - "${PORT_MQTT_BROKER:-15183}:1883"
     volumes:
       - mosquitto-data:/mosquitto/data
       - mosquitto-log:/mosquitto/log

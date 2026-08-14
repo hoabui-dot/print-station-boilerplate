@@ -50,15 +50,15 @@ export const JOB_TYPE_LABELS: Record<string, string> = {
 
 /** Tailwind background color classes for job status badges */
 export const JOB_STATUS_COLORS: Record<string, string> = {
-  [JOB_STATUSES.COMPLETED]: 'bg-green-600',
-  [JOB_STATUSES.FAILED]: 'bg-red-600',
+  [JOB_STATUSES.COMPLETED]: 'bg-status-success',
+  [JOB_STATUSES.FAILED]: 'bg-status-error',
   [JOB_STATUSES.PROCESSING]: 'bg-brand',
-  [JOB_STATUSES.PREPARING]: 'bg-violet-600',
-  [JOB_STATUSES.WAIT_REWORK]: 'bg-amber-600',
-  [JOB_STATUSES.QUEUED]: 'bg-slate-600',
-  [JOB_STATUSES.CREATED]: 'bg-slate-500',
-  [JOB_STATUSES.CANCELLED]: 'bg-slate-600',
-  [JOB_STATUSES.RECEIVED]: 'bg-sky-600',
-  [JOB_STATUSES.PRINTING]: 'bg-fuchsia-600',
-  [JOB_STATUSES.VERIFYING]: 'bg-teal-600',
+  [JOB_STATUSES.PREPARING]: 'bg-accent-color',
+  [JOB_STATUSES.WAIT_REWORK]: 'bg-status-warning',
+  [JOB_STATUSES.QUEUED]: 'bg-muted',
+  [JOB_STATUSES.CREATED]: 'bg-muted',
+  [JOB_STATUSES.CANCELLED]: 'bg-muted',
+  [JOB_STATUSES.RECEIVED]: 'bg-status-info',
+  [JOB_STATUSES.PRINTING]: 'bg-accent-color',
+  [JOB_STATUSES.VERIFYING]: 'bg-accent-color',
 }
