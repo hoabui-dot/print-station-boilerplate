@@ -1,4 +1,4 @@
-name: station-agent
+name: print-station-boilerplate
 
 services:
   # ─────────────────────────────────────────────
@@ -6,7 +6,7 @@ services:
   # ─────────────────────────────────────────────
   redis:
     image: redis:7.4-alpine
-    container_name: station-redis
+    container_name: psb-redis
     restart: unless-stopped
     command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-changeme}"
     ports:
@@ -23,7 +23,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
-    container_name: station-rabbitmq
+    container_name: psb-rabbitmq
     restart: unless-stopped
     ports:
       - "5673:5672"
@@ -45,11 +45,11 @@ services:
   # 1. Station Gateway (HTTP entry point for Factory Gateway)
   # ─────────────────────────────────────────────────────────
   station-gateway:
-    image: vanhoadotbui2628/station-gateway:latest
+    image: print-station-boilerplate/station-gateway:latest
     build:
       context: .
       dockerfile: services/mqtt-adapter/docker/Dockerfile
-    container_name: station-gateway
+    container_name: psb-station-gateway
     restart: unless-stopped
     ports:
       - "${PORT_STATION_GATEWAY:-5001}:5001"
@@ -82,11 +82,11 @@ services:
   # 2. Job Engine
   # ─────────────────────────────────────────────
   job-engine:
-    image: vanhoadotbui2628/job-engine:latest
+    image: print-station-boilerplate/job-engine:latest
     build:
       context: .
       dockerfile: services/job-engine/docker/Dockerfile
-    container_name: station-job-engine
+    container_name: psb-job-engine
     restart: unless-stopped
     depends_on:
       redis:
@@ -124,11 +124,11 @@ services:
   # 3. Printer Adapter
   # ─────────────────────────────────────────────
   printer-adapter:
-    image: vanhoadotbui2628/printer-adapter:${PRINTER_ADAPTER_IMAGE_TAG:-2026.08.06.5}
+    image: print-station-boilerplate/printer-adapter:${PRINTER_ADAPTER_IMAGE_TAG:-2026.08.06.5}
     build:
       context: .
       dockerfile: services/printer-adapter/docker/Dockerfile
-    container_name: station-printer-adapter
+    container_name: psb-printer-adapter
     # Do not pin the adapter to ARM64 here. This compose file is also used on
     # the current amd64 Docker host; the Dockerfile cross-compiles for the
     # active target platform when the service is rebuilt.
@@ -184,11 +184,11 @@ services:
   # 4. Laser Adapter
   # ─────────────────────────────────────────────
   laser-adapter:
-    image: vanhoadotbui2628/laser-adapter:latest
+    image: print-station-boilerplate/laser-adapter:latest
     build:
       context: .
       dockerfile: services/laser-adapter/docker/Dockerfile
-    container_name: station-laser-adapter
+    container_name: psb-laser-adapter
     restart: unless-stopped
     depends_on:
       redis:
@@ -220,11 +220,11 @@ services:
   # 5. Vision Service
   # ─────────────────────────────────────────────
   vision-service:
-    image: vanhoadotbui2628/vision-service:latest
+    image: print-station-boilerplate/vision-service:latest
     build:
       context: .
       dockerfile: services/vision-service/docker/Dockerfile
-    container_name: station-vision-service
+    container_name: psb-vision-service
     restart: unless-stopped
     depends_on:
       redis:
@@ -248,11 +248,11 @@ services:
   # 6. PLC Adapter
   # ─────────────────────────────────────────────
   plc-adapter:
-    image: vanhoadotbui2628/plc-adapter:latest
+    image: print-station-boilerplate/plc-adapter:latest
     build:
       context: .
       dockerfile: services/plc-adapter/docker/Dockerfile
-    container_name: station-plc-adapter
+    container_name: psb-plc-adapter
     restart: unless-stopped
     depends_on:
       redis:
@@ -274,11 +274,11 @@ services:
   # 7. Kiosk UI
   # ─────────────────────────────────────────────
   kiosk-ui:
-    image: vanhoadotbui2628/kiosk-ui:${PRINTER_ADAPTER_UI_IMAGE_TAG:-latest}
+    image: print-station-boilerplate/kiosk-ui:${PRINTER_ADAPTER_UI_IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: services/kiosk-ui/docker/Dockerfile
-    container_name: station-kiosk-ui
+    container_name: psb-kiosk-ui
     restart: unless-stopped
     depends_on:
       redis:
@@ -320,11 +320,11 @@ services:
   # 8. Device Simulator
   # ─────────────────────────────────────────────
   device-simulator:
-    image: vanhoadotbui2628/device-simulator:latest
+    image: print-station-boilerplate/device-simulator:latest
     build:
       context: .
       dockerfile: services/device-simulator/Dockerfile
-    container_name: station-device-simulator
+    container_name: psb-device-simulator
     restart: unless-stopped
     depends_on:
       redis:
@@ -356,11 +356,11 @@ services:
   # 9. Projection Service
   # ─────────────────────────────────────────────
   projection-service:
-    image: vanhoadotbui2628/projection-service:latest
+    image: print-station-boilerplate/projection-service:latest
     build:
       context: .
       dockerfile: services/projection-service/docker/Dockerfile
-    container_name: station-projection-service
+    container_name: psb-projection-service
     restart: unless-stopped
     depends_on:
       rabbitmq:
@@ -399,7 +399,7 @@ services:
   # ─────────────────────────────────────────────
   mosquitto:
     image: eclipse-mosquitto:2.0
-    container_name: station-mqtt-broker
+    container_name: psb-mqtt-broker
     restart: unless-stopped
     ports:
       - "1883:1883"
@@ -436,6 +436,6 @@ volumes:
 networks:
   station-net:
     driver: bridge
-    name: station-net
+    name: print-station-boilerplate-net
   platform-net:
     external: true
