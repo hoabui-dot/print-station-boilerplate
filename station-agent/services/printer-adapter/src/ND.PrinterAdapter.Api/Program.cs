@@ -1628,6 +1628,9 @@ app.MapPost("/api/print/wms-barcode", async (
     if (!string.Equals(req.Source, "WMS", StringComparison.OrdinalIgnoreCase)) return Results.BadRequest(new { error = "PRINT_SOURCE_INVALID" });
     if (!string.Equals(req.Symbology, "CODE128", StringComparison.OrdinalIgnoreCase)) return Results.BadRequest(new { error = "WMS_BARCODE_SYMBOLOGY_REQUIRED" });
     if (req.Payload.ValueKind is JsonValueKind.Undefined or JsonValueKind.Null) return Results.BadRequest(new { error = "WMS_BARCODE_PAYLOAD_REQUIRED" });
+    if (req.Payload.ValueKind != JsonValueKind.Object || !req.Payload.TryGetProperty("barcode", out var barcodeProperty) || barcodeProperty.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(barcodeProperty.GetString()))
+        return Results.BadRequest(new { error = "WMS_BARCODE_VALUE_REQUIRED", message = "WMS payload must contain a non-empty barcode value." });
+    var barcodeValue = barcodeProperty.GetString()!.Trim();
     // WMS barcode printing always routes to one physical printer that is
     // currently online. Ignore stale request printer codes and select the
     // active online device deterministically.
@@ -1646,7 +1649,12 @@ app.MapPost("/api/print/wms-barcode", async (
     var payloadJson = JsonSerializer.Serialize(req.Payload);
     var data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
     {
-        ["wms_payload"] = payloadJson
+        // The barcode is the canonical business identity (warehouse code,
+        // receipt code, lot code, etc.). Keep wms_payload as a compatibility
+        // alias for older persisted templates, but never put JSON in it.
+        ["barcode"] = barcodeValue,
+        ["value"] = barcodeValue,
+        ["wms_payload"] = barcodeValue
     };
     if (req.Payload.ValueKind == JsonValueKind.Object)
     {
