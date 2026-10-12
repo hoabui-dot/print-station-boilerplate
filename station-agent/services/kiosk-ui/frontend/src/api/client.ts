@@ -138,7 +138,7 @@ export const printerApi = {
 
 export const templateApi = {
   getWmsBarcodeTemplate: () => client.get<any>('/wms-barcode-template'),
-  getWmsBarcodeStyle: () => client.get<{ widthMm: number; heightMm: number; xMm: number; yMm: number; symbology: string; source: string }>('/wms-barcode-style'),
+  getWmsBarcodeStyle: () => client.get<{ widthMm: number; heightMm: number; xMm: number; yMm: number; dpi: 203; symbology: 'CODE128'; source: 'WMS' }>('/wms-barcode-style'),
   updateWmsBarcodeStyle: (data: { widthMm: number; heightMm: number; xMm: number; yMm: number }) => client.put('/wms-barcode-style', data),
   list: (params?: { search?: string; dpi?: number; status?: string; layoutType?: string; includeArchived?: boolean }) =>
     client.get<any[]>('/label-templates', { params }),

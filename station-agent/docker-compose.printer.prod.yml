@@ -34,9 +34,9 @@ services:
       CUPS_USER: hoabui
       CUPS_QUEUE: Zebra_Technologies_ZTC_GK420t
       ACTIVATE_ZEBRA_PRINTER: "true"
-      # The adapter is the runtime endpoint for MES Print Station PRINT-STATION-01.
+      # The adapter is the runtime endpoint for MES Print Station PS-CANONICAL-01.
       # Workstation binding is owned by MES master data, not duplicated here.
-      PRINT_STATION_ID: PRINT-STATION-01
+      PRINT_STATION_ID: PS-CANONICAL-01
       PRINTER_ADAPTER_ID: PRINT-ADAPTER-01
       KAFKA_BOOTSTRAP_SERVERS: 100.68.50.41:19092
       KAFKA_CLIENT_ID: PRINT-ADAPTER-01
@@ -53,7 +53,7 @@ services:
       Kafka__BatchPrintCommandsTopic: station.commands.printer
       Kafka__ManagementCommandsTopic: station.commands.printer
       Kafka__ManagementEventsTopic: station.events.printer
-      Kafka__PrintStationId: PRINT-STATION-01
+      Kafka__PrintStationId: PS-CANONICAL-01
       PrinterAdapter__HeartbeatIntervalSeconds: "15"
     volumes:
       - printer-adapter-data:/data
@@ -81,7 +81,7 @@ services:
       ASPNETCORE_URLS: http://+:5010
       ASPNETCORE_ENVIRONMENT: Production
       # The Adapter API is published by this same Mac host.
-      PRINTER_ADAPTER_URL: http://100.108.194.102:5003
+      PRINTER_ADAPTER_URL: http://100.82.195.220:5003
       PROJECTION_SERVICE_URL: http://100.68.50.41:5009
       KAFKA_BOOTSTRAP_SERVERS: 100.68.50.41:19092
       KAFKA_SECURITY_PROTOCOL: Plaintext
@@ -90,7 +90,7 @@ services:
       Kafka__BootstrapServers: 100.68.50.41:19092
       Kafka__SecurityProtocol: Plaintext
       Kafka__ClientId: PRINT-ADAPTER-UI-01
-      PRINT_STATION_ID: PRINT-STATION-01
+      PRINT_STATION_ID: PS-CANONICAL-01
       PRINTER_ADAPTER_ID: PRINT-ADAPTER-01
       MONITOR_REFRESH_INTERVAL_SECONDS: "5"
       MONITOR_STALE_HEARTBEAT_SECONDS: "45"

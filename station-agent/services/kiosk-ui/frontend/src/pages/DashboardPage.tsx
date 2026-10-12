@@ -917,7 +917,7 @@ export default function DashboardPage() {
               <Flame className="h-4 w-4 text-on-strong" />
             </div>
             <div className="min-w-0">
-              <p className="font-bold text-base leading-tight truncate">ND Station Kiosk</p>
+              <p className="font-bold text-base leading-tight truncate">Print Station - S-Factory</p>
               <p className="text-sm text-muted-fg leading-tight">{stationId}</p>
             </div>
           </div>

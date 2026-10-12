@@ -18,7 +18,7 @@ Kafka options section using double underscores. The Printer Adapter consumes
 No RabbitMQ broker is required or contacted by the Printer Adapter image.
 
 The Printer Adapter API is published by the Print Station at
-`http://100.108.194.102:5003`. Deployments of Projection Service must set
+`http://100.82.195.220:5003`. Deployments of Projection Service must set
 `PRINTER_ADAPTER_URL` to this address so its REST proxy and diagnostics do not
 try the non-existent local Docker service name.
 

@@ -350,7 +350,7 @@ services:
       - Jwt__Audience=${JWT_AUDIENCE:-nd-kiosk}
       - LOCAL_ADMIN_PASSWORD=${LOCAL_ADMIN_PASSWORD}
       - ASPNETCORE_ENVIRONMENT=Production
-      - PRINTER_ADAPTER_URL=${PRINTER_ADAPTER_URL:-http://100.108.194.102:5003}
+      - PRINTER_ADAPTER_URL=${PRINTER_ADAPTER_URL:-http://100.82.195.220:5003}
       - JOB_ENGINE_HOST=${JOB_ENGINE_HOST}
       - JOB_ENGINE_PORT=${JOB_ENGINE_PORT}
       - CORS_ORIGINS=${CORS_ORIGINS}
@@ -397,7 +397,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - SIMULATOR_URL=${SIMULATOR_URL:-http://device-simulator:8080}
       # Printer Adapter is deployed on the separate Print Station host.
-      - PRINTER_ADAPTER_URL=${PRINTER_ADAPTER_URL:-http://100.108.194.102:5003}
+      - PRINTER_ADAPTER_URL=${PRINTER_ADAPTER_URL:-http://100.82.195.220:5003}
     volumes:
       - sqlite-data:/data
       - projection-logs:/logs

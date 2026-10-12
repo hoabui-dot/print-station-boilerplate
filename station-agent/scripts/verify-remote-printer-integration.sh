@@ -4,7 +4,7 @@ set -u
 # Read-only verification for the remote Printer Adapter path. The script never
 # publishes a command and never calls POST /api/print.
 
-ADAPTER_URL="${PRINTER_ADAPTER_URL:-http://100.68.50.41:5003}"
+ADAPTER_URL="${PRINTER_ADAPTER_URL:-http://100.82.195.220:5003}"
 PROJECTION_URL="${PROJECTION_SERVICE_URL:-http://127.0.0.1:5009}"
 KIOSK_URL="${KIOSK_URL:-http://127.0.0.1:5007}"
 KAFKA_BOOTSTRAP_SERVERS="${KAFKA_BOOTSTRAP_SERVERS:-100.68.50.41:19092}"

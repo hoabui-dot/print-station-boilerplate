@@ -1600,7 +1600,7 @@ app.MapGet("/api/wms-barcode-style", async (PrinterDbContext db, CancellationTok
         db.WmsBarcodeStyles.Add(style);
         await db.SaveChangesAsync(ct);
     }
-    return Results.Ok(new { style.Id, style.WidthMm, style.HeightMm, style.XMm, style.YMm, style.UpdatedAt, symbology = "CODE128", source = "WMS" });
+    return Results.Ok(new { style.Id, style.WidthMm, style.HeightMm, style.XMm, style.YMm, style.UpdatedAt, dpi = 203, symbology = "CODE128", source = "WMS" });
 }).WithTags("WMS Barcode");
 
 app.MapPut("/api/wms-barcode-style", async (WmsBarcodeStyleRequest req, PrinterDbContext db, CancellationToken ct) =>
@@ -1611,7 +1611,7 @@ app.MapPut("/api/wms-barcode-style", async (WmsBarcodeStyleRequest req, PrinterD
     if (style is null) { style = WmsBarcodeStyle.CreateDefault(); db.WmsBarcodeStyles.Add(style); }
     style.Update(req.WidthMm, req.HeightMm, req.XMm, req.YMm);
     await db.SaveChangesAsync(ct);
-    return Results.Ok(new { style.Id, style.WidthMm, style.HeightMm, style.XMm, style.YMm, style.UpdatedAt, symbology = "CODE128", source = "WMS" });
+    return Results.Ok(new { style.Id, style.WidthMm, style.HeightMm, style.XMm, style.YMm, style.UpdatedAt, dpi = 203, symbology = "CODE128", source = "WMS" });
 }).WithTags("WMS Barcode");
 
 app.MapPost("/api/print/wms-barcode", async (
@@ -1627,6 +1627,7 @@ app.MapPost("/api/print/wms-barcode", async (
 {
     if (!string.Equals(req.Source, "WMS", StringComparison.OrdinalIgnoreCase)) return Results.BadRequest(new { error = "PRINT_SOURCE_INVALID" });
     if (!string.Equals(req.Symbology, "CODE128", StringComparison.OrdinalIgnoreCase)) return Results.BadRequest(new { error = "WMS_BARCODE_SYMBOLOGY_REQUIRED" });
+    if (req.Dpi != 203) return Results.BadRequest(new { error = "WMS_BARCODE_DPI_REQUIRED", message = "WMS barcodes must use 203 DPI." });
     if (req.Payload.ValueKind is JsonValueKind.Undefined or JsonValueKind.Null) return Results.BadRequest(new { error = "WMS_BARCODE_PAYLOAD_REQUIRED" });
     if (req.Payload.ValueKind != JsonValueKind.Object || !req.Payload.TryGetProperty("barcode", out var barcodeProperty) || barcodeProperty.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(barcodeProperty.GetString()))
         return Results.BadRequest(new { error = "WMS_BARCODE_VALUE_REQUIRED", message = "WMS payload must contain a non-empty barcode value." });
@@ -1933,7 +1934,7 @@ static void DeleteAssetFile(LabelAsset asset, string storageRoot)
 // ── Request records ─────────────────────────────────────────────────────────
 public record LabelPreviewRequest(string Zpl, int Dpi = 203, double Width = 4, double Height = 2.4);
 public record RawPrintTestRequest(string PrinterCode, string Zpl, string? CorrelationId = null);
-public record WmsBarcodePrintRequest(string Source, string Symbology, JsonElement Payload, double WidthMm = 100, double HeightMm = 50, double XMm = 5, double YMm = 5, int Copies = 1, string? PrinterCode = null, string? CorrelationId = null);
+public record WmsBarcodePrintRequest(string Source, string Symbology, JsonElement Payload, double WidthMm = 100, double HeightMm = 50, double XMm = 5, double YMm = 5, int Dpi = 203, int Copies = 1, string? PrinterCode = null, string? CorrelationId = null);
 public record WmsBarcodeStyleRequest(double WidthMm, double HeightMm, double XMm, double YMm);
 public record UpdateLabelAssetRequest(double LabelWidthMm, double LabelHeightMm, int Dpi, double IconWidthMm, double IconHeightMm, string Horizontal, string Vertical);
 public record AssignPrinterRequest(string PrinterCode, string TemplateId, string? AssignedBy = null);

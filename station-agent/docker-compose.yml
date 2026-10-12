@@ -162,7 +162,7 @@ services:
       # The current adapter consumes the Kafka topology. Keep these explicit
       # section variables because the application binds KafkaOptions from the
       # Kafka configuration section rather than the legacy KAFKA_* names.
-      - Kafka__BootstrapServers=${KAFKA_BOOTSTRAP_SERVERS:-platform-kafka:9092}
+      - Kafka__BootstrapServers=${KAFKA_BOOTSTRAP_SERVERS:-100.68.50.41:19092}
       - Kafka__ClientId=${KAFKA_CLIENT_ID:-PRINT-ADAPTER-01}
       - Kafka__SecurityProtocol=${KAFKA_SECURITY_PROTOCOL:-Plaintext}
       - Kafka__JobEventsTopic=${KAFKA_JOB_EVENTS_TOPIC:-station.events.jobs}
@@ -171,6 +171,7 @@ services:
       - Kafka__ManagementCommandsTopic=${KAFKA_MANAGEMENT_COMMANDS_TOPIC:-station.commands.printer}
       - Kafka__ManagementEventsTopic=${KAFKA_MANAGEMENT_EVENTS_TOPIC:-station.events.printer}
       - Kafka__PrintStationId=${KAFKA_PRINT_STATION_ID:-PS-CANONICAL-01}
+      - KAFKA_CONNECTION_NAME=${KAFKA_CONNECTION_NAME:-PRINT-ADAPTER-01}
     volumes:
       - ./sqlite-databases:/data
       - printer-logs:/logs
@@ -304,7 +305,7 @@ services:
       # Printer Adapter is deployed on the co-located Mac server. Keep this
       # overridable for an all-in-one local stack, but do not default to a
       # missing container when the station runs with the remote adapter.
-      - PRINTER_ADAPTER_URL=${PRINTER_ADAPTER_URL:-http://100.108.194.102:5003}
+      - PRINTER_ADAPTER_URL=${PRINTER_ADAPTER_URL:-http://100.82.195.220:5003}
       - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:5007,http://192.168.1.87:5007,http://localhost:5222,http://192.168.1.87:5222,http://localhost:3000,https://comp-node-barrel-establishment.trycloudflare.com}
       - RabbitMq__Host=rabbitmq
       - RabbitMq__Port=5672
@@ -384,7 +385,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - SIMULATOR_URL=http://device-simulator:8080
       # Printer Adapter is deployed on the separate Print Station host.
-      - PRINTER_ADAPTER_URL=${PRINTER_ADAPTER_URL:-http://printer-adapter:5003}
+      - PRINTER_ADAPTER_URL=${PRINTER_ADAPTER_URL:-http://100.82.195.220:5003}
     volumes:
       - ./sqlite-databases:/data
       - projection-logs:/logs
